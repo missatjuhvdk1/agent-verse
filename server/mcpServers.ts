@@ -18,6 +18,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as path from 'path';
 import type { ProviderType } from '../client/config/models';
 
 interface McpHttpServerConfig {
@@ -68,7 +69,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
     'web': {
       type: 'stdio',
       command: 'node',
-      args: [process.cwd() + '/server/mcp/web-fetch/build/index.js'],
+      args: [path.join(process.cwd(), 'server', 'mcp', 'web-fetch', 'build', 'index.js')],
     },
   },
   'z-ai': {
@@ -81,7 +82,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
     'web': {
       type: 'stdio',
       command: 'node',
-      args: [process.cwd() + '/server/mcp/web-fetch/build/index.js'],
+      args: [path.join(process.cwd(), 'server', 'mcp', 'web-fetch', 'build', 'index.js')],
     },
     // GLM models use Z.AI MCP servers
     'web-search-prime': {
@@ -111,7 +112,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
     'web': {
       type: 'stdio',
       command: 'node',
-      args: [process.cwd() + '/server/mcp/web-fetch/build/index.js'],
+      args: [path.join(process.cwd(), 'server', 'mcp', 'web-fetch', 'build', 'index.js')],
     },
   },
 };
