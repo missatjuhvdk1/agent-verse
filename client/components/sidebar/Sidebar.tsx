@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Modern chat interface for Claude Agent SDK
+ * agent-verse - Modern chat interface for Claude Agent SDK
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -270,7 +270,7 @@ export function Sidebar({ isOpen, onToggle, chats = [], onNewChat, onChatSelect,
         {/* Header */}
         <div className="sidebar-header">
           <div className="sidebar-logo">
-            <img src="/client/agent-boy.svg" alt="Agent Smith" className="sidebar-logo-icon" />
+            <img src="/client/agent-boy.svg" alt="agent-verse" className="sidebar-logo-icon" />
           </div>
           <button className="sidebar-toggle-btn" onClick={onToggle} aria-label="Toggle Sidebar">
             <Menu size={24} opacity={0.8} className={isOpen ? '' : 'rotate-180'} />

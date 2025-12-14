@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Modern chat interface for Claude Agent SDK
+ * agent-verse - Modern chat interface for Claude Agent SDK
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -1232,7 +1232,7 @@ export function ChatContainer() {
                     {!isSidebarOpen && (
                       <img
                         src="/client/agent-boy.svg"
-                        alt="Agent Smith"
+                        alt="agent-verse"
                         className="header-icon"
                         loading="eager"
                         onError={(e) => {
@@ -1245,7 +1245,7 @@ export function ChatContainer() {
                       />
                     )}
                     <div className="header-title text-gradient">
-                      Agent Smith
+                      agent-verse
                     </div>
                     {/* Model Selector */}
                     <ModelSelector

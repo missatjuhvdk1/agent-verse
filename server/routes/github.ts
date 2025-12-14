@@ -135,7 +135,7 @@ export async function handleGitHubRoutes(
         headers: {
           'Authorization': `Bearer ${token.access_token}`,
           'Accept': 'application/vnd.github.v3+json',
-          'User-Agent': 'Agent-Smith'
+          'User-Agent': 'agent-verse'
         }
       });
 
@@ -388,7 +388,7 @@ export async function handleGitHubRoutes(
           headers: {
             'Authorization': `Bearer ${token.access_token}`,
             'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Agent-Smith'
+            'User-Agent': 'agent-verse'
           }
         }
       );

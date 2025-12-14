@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Verse Documentation Cache
+ * agent-verse - Verse Documentation Cache
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later

@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Modern chat interface for Claude Agent SDK
+ * agent-verse - Modern chat interface for Claude Agent SDK
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -231,7 +231,7 @@ export function GitHubOAuthSetupModal({ onComplete, onClose }: GitHubOAuthSetupM
               </p>
               <ul style={{ color: 'rgba(255, 255, 255, 0.7)', marginBottom: '24px', lineHeight: 1.8 }}>
                 <li>Clone any repository to work on</li>
-                <li>Push commits directly from Agent Smith</li>
+                <li>Push commits directly from agent-verse</li>
                 <li>Automatic git credential configuration</li>
               </ul>
 
@@ -308,7 +308,7 @@ export function GitHubOAuthSetupModal({ onComplete, onClose }: GitHubOAuthSetupM
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="text"
-                    value="Agent Smith"
+                    value="agent-verse"
                     readOnly
                     style={{
                       flex: 1,
@@ -322,7 +322,7 @@ export function GitHubOAuthSetupModal({ onComplete, onClose }: GitHubOAuthSetupM
                     }}
                   />
                   <button
-                    onClick={() => handleCopy('Agent Smith', 'Application name')}
+                    onClick={() => handleCopy('agent-verse', 'Application name')}
                     style={{
                       padding: '10px 12px',
                       backgroundColor: 'rgba(99, 102, 241, 0.2)',

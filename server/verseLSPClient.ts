@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Verse Language Server Protocol Client
+ * agent-verse - Verse Language Server Protocol Client
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later

@@ -610,7 +610,7 @@ EOF
     5|*)
       # Skip
       log_warning "Skipping API configuration"
-      echo "You'll need to edit ${YELLOW}$INSTALL_DIR/.env${NC} before running Agent Smith"
+      echo "You'll need to edit ${YELLOW}$INSTALL_DIR/.env${NC} before running agent-verse"
 
       # Create template .env
       cat > "$INSTALL_DIR/.env" << EOF

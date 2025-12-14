@@ -2,7 +2,7 @@
 set -e
 
 # =============================================================================
-# Agent Smith Update Script - Smart, Minimal Updates Only
+# agent-verse Update Script - Smart, Minimal Updates Only
 # =============================================================================
 
 # Colors
@@ -14,7 +14,7 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Configuration
-REPO="Meesvandenkieboom/agent-smith"
+REPO="missatjuhvdk1/agent-verse"
 BRANCH="main"
 GITHUB_REPO_URL="https://github.com/${REPO}.git"
 
@@ -22,16 +22,16 @@ GITHUB_REPO_URL="https://github.com/${REPO}.git"
 OS=$(uname -s)
 case $OS in
   Darwin)
-    INSTALL_DIR="$HOME/Applications/agent-smith-app"
+    INSTALL_DIR="$HOME/Applications/agent-verse-app"
     ;;
   Linux)
-    INSTALL_DIR="$HOME/.local/share/agent-smith-app"
+    INSTALL_DIR="$HOME/.local/share/agent-verse-app"
     ;;
   MINGW*|MSYS*|CYGWIN*)
     if [[ -n "$LOCALAPPDATA" ]]; then
-      INSTALL_DIR="$LOCALAPPDATA/Programs/agent-smith-app"
+      INSTALL_DIR="$LOCALAPPDATA/Programs/agent-verse-app"
     else
-      INSTALL_DIR="$USERPROFILE/AppData/Local/Programs/agent-smith-app"
+      INSTALL_DIR="$USERPROFILE/AppData/Local/Programs/agent-verse-app"
     fi
     ;;
   *)
@@ -65,7 +65,7 @@ log_section() {
 # =============================================================================
 
 if [[ ! -d "$INSTALL_DIR" ]]; then
-  log_error "Agent Smith is not installed at $INSTALL_DIR"
+  log_error "agent-verse is not installed at $INSTALL_DIR"
   echo ""
   log_info "Run the installer first: curl -fsSL https://raw.githubusercontent.com/$REPO/main/install.sh | bash"
   exit 1
@@ -77,14 +77,14 @@ fi
 
 echo ""
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${CYAN}   Agent Smith - Smart Update${NC}"
+echo -e "${CYAN}   agent-verse - Smart Update${NC}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
 # Clone to temp directory
 log_section "Downloading Latest Version"
 
-CLONE_DIR="/tmp/agent-smith-update-$$"
+CLONE_DIR="/tmp/agent-verse-update-$$"
 log_info "Cloning from $BRANCH branch..."
 
 if git clone --quiet --depth 1 --branch "$BRANCH" "$GITHUB_REPO_URL" "$CLONE_DIR" 2>&1; then
@@ -156,25 +156,25 @@ DATA_BACKUP=""
 TOKENS_BACKUP=""
 
 if [[ -f "$INSTALL_DIR/.env" ]]; then
-  ENV_BACKUP="/tmp/agent-smith-env-$$"
+  ENV_BACKUP="/tmp/agent-verse-env-$$"
   cp "$INSTALL_DIR/.env" "$ENV_BACKUP"
   log_info "Backed up .env"
 fi
 
 if [[ -f "$INSTALL_DIR/server/.env" ]]; then
-  SERVER_ENV_BACKUP="/tmp/agent-smith-server-env-$$"
+  SERVER_ENV_BACKUP="/tmp/agent-verse-server-env-$$"
   cp "$INSTALL_DIR/server/.env" "$SERVER_ENV_BACKUP"
   log_info "Backed up server/.env (GitHub credentials)"
 fi
 
 if [[ -d "$INSTALL_DIR/data" ]]; then
-  DATA_BACKUP="/tmp/agent-smith-data-$$"
+  DATA_BACKUP="/tmp/agent-verse-data-$$"
   cp -r "$INSTALL_DIR/data" "$DATA_BACKUP"
   log_info "Backed up data directory"
 fi
 
 if [[ -f "$INSTALL_DIR/.tokens" ]]; then
-  TOKENS_BACKUP="/tmp/agent-smith-tokens-$$"
+  TOKENS_BACKUP="/tmp/agent-verse-tokens-$$"
   cp "$INSTALL_DIR/.tokens" "$TOKENS_BACKUP"
   log_info "Backed up OAuth tokens"
 fi
@@ -223,7 +223,7 @@ rm -rf "$CLONE_DIR"
 # Success
 log_section "Update Complete! 🎉"
 
-echo -e "${GREEN}Agent Smith has been updated successfully!${NC}"
+echo -e "${GREEN}agent-verse has been updated successfully!${NC}"
 echo ""
 echo -e "${BLUE}📍 Installation:${NC} $INSTALL_DIR"
 echo ""
@@ -235,15 +235,15 @@ elif [[ -f "$INSTALL_DIR/.tokens" ]]; then
   echo -e "${GREEN}✓${NC} OAuth authentication active"
 else
   echo -e "${YELLOW}⚠${NC} No authentication configured"
-  echo -e "  Run: ${GREEN}agent-smith --login${NC} or configure API keys in .env"
+  echo -e "  Run: ${GREEN}agent-verse --login${NC} or configure API keys in .env"
 fi
 
 echo ""
-echo -e "${BLUE}🚀 Start Agent Smith:${NC}"
+echo -e "${BLUE}🚀 Start agent-verse:${NC}"
 
 # Check if global command exists
-if command -v agent-smith &> /dev/null; then
-  echo -e "  → ${GREEN}agent-smith${NC}"
+if command -v agent-verse &> /dev/null; then
+  echo -e "  → ${GREEN}agent-verse${NC}"
 else
   echo -e "  → ${GREEN}cd $INSTALL_DIR && bun run server/server.ts${NC}"
 fi

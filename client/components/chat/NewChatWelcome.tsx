@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Modern chat interface for Claude Agent SDK
+ * agent-verse - Modern chat interface for Claude Agent SDK
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -367,7 +367,7 @@ export function NewChatWelcome({ inputValue, onInputChange, onSubmit, onStop, di
         <div className="flex flex-col gap-1 justify-center items-center mb-8">
           <div className="flex flex-row justify-center gap-3 w-fit px-5">
             <div className="text-[40px] font-semibold line-clamp-1 text-gradient">
-              {userName ? `Hi, ${userName}. I'm Agent Smith` : "Hi. I'm Agent Smith"}
+              {userName ? `Hi, ${userName}. I'm agent-verse` : "Hi. I'm agent-verse"}
             </div>
           </div>
 

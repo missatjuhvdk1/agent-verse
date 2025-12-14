@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 /**
- * Agent Smith - User Setup CLI
+ * agent-verse - User Setup CLI
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,7 +27,7 @@ function colorize(text: string, color: keyof typeof colors): string {
 function printBanner() {
   console.log('');
   console.log(colorize('╔═══════════════════════════════════════╗', 'cyan'));
-  console.log(colorize('║     Agent Smith - User Setup         ║', 'cyan'));
+  console.log(colorize('║     agent-verse - User Setup         ║', 'cyan'));
   console.log(colorize('╚═══════════════════════════════════════╝', 'cyan'));
   console.log('');
 }
@@ -60,7 +60,7 @@ export async function runSetup() {
   }
 
   // Ask for name
-  console.log(colorize('Let\'s personalize Agent Smith for you!', 'bright'));
+  console.log(colorize('Let\'s personalize agent-verse for you!', 'bright'));
   console.log('');
 
   const nameInput = await question(colorize('What is your name? (first and/or last name): ', 'cyan'));
@@ -98,7 +98,7 @@ export async function runSetup() {
   console.log(colorize(`  Display Name: ${getUserDisplayName({ firstName, lastName })}`, 'blue'));
   console.log('');
   console.log(colorize('You can run this setup again anytime with:', 'yellow'));
-  console.log(colorize('  agent-smith --setup', 'cyan'));
+  console.log(colorize('  agent-verse --setup', 'cyan'));
   console.log(colorize('  bun run setup', 'cyan'));
   console.log('');
 }

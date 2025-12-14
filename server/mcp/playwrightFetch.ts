@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Playwright Web Fetch MCP Server
+ * agent-verse - Playwright Web Fetch MCP Server
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later

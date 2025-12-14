@@ -9,7 +9,7 @@ const args = process.argv.slice(2);
 const command = args[0];
 
 async function handleLogin() {
-  console.log('\n🔐 Agent Smith - Claude OAuth Login\n');
+  console.log('\n🔐 agent-verse - Claude OAuth Login\n');
 
   // Check if already logged in
   const alreadyLoggedIn = await isLoggedIn();
@@ -81,7 +81,7 @@ async function handleLogin() {
 }
 
 async function handleLogout() {
-  console.log('\n👋 Agent Smith - Claude OAuth Logout\n');
+  console.log('\n👋 agent-verse - Claude OAuth Logout\n');
 
   const loggedIn = await isLoggedIn();
   if (!loggedIn) {
@@ -109,7 +109,7 @@ async function handleLogout() {
 }
 
 async function handleStatus() {
-  console.log('\n📊 Agent Smith - Auth Status\n');
+  console.log('\n📊 agent-verse - Auth Status\n');
 
   const loggedIn = await isLoggedIn();
 
@@ -131,7 +131,7 @@ async function handleStatus() {
 }
 
 async function handleUpdate() {
-  console.log('\n🔄 Agent Smith - Update\n');
+  console.log('\n🔄 agent-verse - Update\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -164,7 +164,7 @@ async function handleUpdate() {
     const updateScript = await response.text();
 
     // Write to a temporary file
-    const tmpFile = join(tmpdir(), 'agent-smith-update.sh');
+    const tmpFile = join(tmpdir(), 'agent-verse-update.sh');
     await Bun.write(tmpFile, updateScript);
 
     console.log('📦 Running update...\n');
@@ -196,7 +196,7 @@ async function handleUpdate() {
 
 function showHelp() {
   console.log(`
-🤖 Agent Smith - CLI
+🤖 agent-verse - CLI
 
 Commands:
   --login        Log in with Claude Pro/Max subscription (OAuth)
@@ -211,7 +211,7 @@ Examples:
   bun run cli.ts --status
   bun run cli.ts --update
 
-Note: Use 'agent-smith' command to launch the app (standalone binary).
+Note: Use 'agent-verse' command to launch the app (standalone binary).
 `);
 }
 

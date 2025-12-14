@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Verse Code Validator
+ * agent-verse - Verse Code Validator
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later

@@ -1,7 +1,7 @@
 # =============================================================================
-# Agent Smith Windows Installer - Production Grade
+# agent-verse Windows Installer - Production Grade
 # =============================================================================
-# Run with: iwr -useb https://raw.githubusercontent.com/Meesvandenkieboom/agent-smith/main/install.ps1 | iex
+# Run with: iwr -useb https://raw.githubusercontent.com/missatjuhvdk1/agent-verse/main/install.ps1 | iex
 #
 # Handles all edge cases, validates dependencies, verifies downloads,
 # and provides comprehensive error handling with rollback support.
@@ -10,10 +10,10 @@
 $ErrorActionPreference = "Stop"
 
 # Configuration
-$REPO = "Meesvandenkieboom/agent-smith"
-$APP_NAME = "agent-smith"
+$REPO = "missatjuhvdk1/agent-verse"
+$APP_NAME = "agent-verse"
 $MIN_DISK_SPACE_GB = 0.1
-$INSTALL_DIR = "$env:LOCALAPPDATA\Programs\agent-smith-app"
+$INSTALL_DIR = "$env:LOCALAPPDATA\Programs\agent-verse-app"
 
 # Global state for cleanup
 $script:TempFiles = @()
@@ -200,11 +200,11 @@ function Test-ExistingInstallation {
     if (Test-Path $INSTALL_DIR) {
         Write-Section "Existing Installation Detected"
 
-        # Check if Agent Smith is running on port 3001
+        # Check if agent-verse is running on port 3001
         try {
             $connection = Test-NetConnection -ComputerName localhost -Port 3001 -InformationLevel Quiet -WarningAction SilentlyContinue
             if ($connection) {
-                Write-Warning "Agent Smith appears to be running (port 3001 in use)"
+                Write-Warning "agent-verse appears to be running (port 3001 in use)"
                 Write-Host ""
                 $stopRunning = Read-Host "Stop the running instance and upgrade? [y/N]"
 
@@ -222,11 +222,11 @@ function Test-ExistingInstallation {
                         Start-Sleep -Seconds 1
                         Write-Success "Stopped running instance"
                     } catch {
-                        Write-Warning "Could not automatically stop the process. Please close Agent Smith manually."
+                        Write-Warning "Could not automatically stop the process. Please close agent-verse manually."
                     }
                 } else {
                     Invoke-FatalError "Installation cancelled" `
-                        "Stop Agent Smith manually and try again"
+                        "Stop agent-verse manually and try again"
                 }
             }
         } catch {
@@ -303,7 +303,7 @@ function Get-LatestRelease {
 # =============================================================================
 
 function Get-ReleasePackage {
-    Write-Section "Downloading Agent Smith $script:Version"
+    Write-Section "Downloading agent-verse $script:Version"
 
     $script:DownloadPath = "$env:TEMP\$APP_NAME-$script:Platform-$PID.zip"
     $script:TempFiles += $script:DownloadPath
@@ -371,7 +371,7 @@ function Get-ReleasePackage {
 # =============================================================================
 
 function Install-Application {
-    Write-Section "Installing Agent Smith"
+    Write-Section "Installing agent-verse"
 
     # Create install directory
     Write-Info "Creating installation directory..."
@@ -385,7 +385,7 @@ function Install-Application {
     # Extract archive
     Write-Info "Extracting files..."
 
-    # The zip contains a directory named agent-smith-{platform}
+    # The zip contains a directory named agent-verse-{platform}
     $extractPath = "$env:TEMP\$APP_NAME-$script:Platform"
     $script:TempFiles += $extractPath
 
@@ -530,7 +530,7 @@ function Set-ApiConfiguration {
             "4" {
                 Write-Host ""
                 Write-Warning "Skipping API configuration"
-                Write-Host "You'll need to edit $INSTALL_DIR\.env before running Agent Smith"
+                Write-Host "You'll need to edit $INSTALL_DIR\.env before running agent-verse"
                 return
             }
             default {
@@ -581,7 +581,7 @@ function Set-Personalization {
 
     Write-Section "Personalization (Optional)"
 
-    Write-Host "Agent Smith can personalize your experience with your name."
+    Write-Host "agent-verse can personalize your experience with your name."
     Write-Host ""
     $userName = Read-Host "Enter your name (or press Enter to skip)"
 
@@ -612,7 +612,7 @@ function Set-Personalization {
         Write-Success "Personalization configured"
         Write-Info "Your name will appear in the interface as: $userName"
     } else {
-        Write-Info "Skipped personalization (you can run 'agent-smith --setup' later)"
+        Write-Info "Skipped personalization (you can run 'agent-verse --setup' later)"
     }
 }
 
@@ -648,13 +648,13 @@ function Add-ToPath {
 function Show-SuccessMessage {
     Write-Section "Installation Successful! 🎉"
 
-    Write-ColorMessage "Agent Smith $script:Version has been installed successfully!" "Green"
+    Write-ColorMessage "agent-verse $script:Version has been installed successfully!" "Green"
     Write-Host ""
     Write-ColorMessage "📍 Installation Location:" "Cyan"
     Write-Host "   $INSTALL_DIR"
     Write-Host ""
 
-    Write-ColorMessage "🚀 How to Start Agent Smith:" "Cyan"
+    Write-ColorMessage "🚀 How to Start agent-verse:" "Cyan"
     Write-Host ""
 
     if ($script:NeedsRestart) {
@@ -695,7 +695,7 @@ function Start-Installation {
     # Print banner
     Write-Host ""
     Write-ColorMessage "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" "Cyan"
-    Write-ColorMessage "   Agent Smith Installer" "Cyan"
+    Write-ColorMessage "   agent-verse Installer" "Cyan"
     Write-ColorMessage "   Production-Grade Installation Script" "Cyan"
     Write-ColorMessage "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" "Cyan"
     Write-Host ""

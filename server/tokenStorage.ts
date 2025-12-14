@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { OAuthTokens } from './oauth';
 
-const CONFIG_DIR = path.join(process.env.HOME || process.env.USERPROFILE || '.', '.agent-smith');
+const CONFIG_DIR = path.join(process.env.HOME || process.env.USERPROFILE || '.', '.agent-verse');
 const TOKEN_FILE = path.join(CONFIG_DIR, 'oauth-tokens.json');
 
 export interface StoredAuth {

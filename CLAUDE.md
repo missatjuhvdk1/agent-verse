@@ -1,11 +1,11 @@
-# Agent Smith
+# agent-verse
 
 A desktop-first chat interface for Claude Agent SDK with real-time streaming, persistent sessions, and specialized sub-agents, running locally with full file system access.
 
 ## Project Structure
 
 ```
-agent-boy2/
+agent-verse/
 ├── server/               # Backend (Bun + WebSocket)
 │   ├── server.ts         # Main entry point (port 3001)
 │   ├── agents.ts         # Agent configuration

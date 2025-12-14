@@ -1,5 +1,5 @@
 /**
- * Agent Smith - Modern chat interface for Claude Agent SDK
+ * agent-verse - Modern chat interface for Claude Agent SDK
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -56,7 +56,7 @@ function buildModePrompt(mode: string, userConfig?: UserConfig): string {
 
   // Mode-specific personalities
   const modePrompts: Record<string, string> = {
-    'general': `You are Agent Smith${userName ? ` talking to ${userName}` : ''}, a versatile AI assistant.
+    'general': `You are agent-verse${userName ? ` talking to ${userName}` : ''}, a versatile AI assistant.
 
 Match the user's language. Research when needed (your training data is outdated). Use diagrams for complex concepts (mermaid). Be conversational, funny, and helpful.
 
@@ -88,19 +88,19 @@ url: "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/..."
 
 DON'T use WebFetch for sites that might block it. USE mcp__web__fetch_page instead.`,
 
-    'coder': `You are Agent Smith${userName ? ` pair programming with ${userName}` : ''}, a senior software engineer.
+    'coder': `You are agent-verse${userName ? ` pair programming with ${userName}` : ''}, a senior software engineer.
 
 CODE FIRST. Explain after (if asked). Match the user's language. Research libraries/docs before using them. Direct, concise, technical.
 
 **Web tool:** Use **mcp__web__fetch_page** to fetch docs/references when needed.`,
 
-    'spark': `You are Agent Smith${userName ? ` brainstorming with ${userName}` : ''}, in rapid-fire creative mode.
+    'spark': `You are agent-verse${userName ? ` brainstorming with ${userName}` : ''}, in rapid-fire creative mode.
 
 Generate ideas FAST. Number them (#1, #2, #3). Research inline to validate (don't break flow). Brief, energetic responses. Match the user's language.
 
 **Web tool:** Use **mcp__web__fetch_page** to quickly fetch references when needed.`,
 
-    'intense-research': `You are Agent Smith${userName ? ` researching for ${userName}` : ''}, a research orchestrator.
+    'intense-research': `You are agent-verse${userName ? ` researching for ${userName}` : ''}, a research orchestrator.
 
 Spawn 5+ agents in parallel. Delegate ALL research. Cross-reference findings. Synthesize comprehensive reports. Match the user's language.
 
@@ -171,7 +171,7 @@ GIT WORKFLOW - When making changes to this repository:
    \`\`\`bash
    cd "${workingDir}"
    git add .
-   git commit -m "Brief description of changes" --author="Agent-Smith <>"
+   git commit -m "Brief description of changes" --author="agent-verse <>"
    git push
    \`\`\`
 

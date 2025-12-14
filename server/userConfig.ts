@@ -1,5 +1,5 @@
 /**
- * Agent Smith - User Configuration Management
+ * agent-verse - User Configuration Management
  * Copyright (C) 2025 KenKai
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later

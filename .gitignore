@@ -6,7 +6,7 @@ dist/
 bun.lock
 data/
 server/generated/
-agent-smith
+agent-verse
 release/
 .history
 
