@@ -200,8 +200,11 @@ export class VerseLSPClient {
       };
 
       if (!diagnosticsParams || !diagnosticsParams.uri) {
+        console.warn('[Verse LSP] Received publishDiagnostics without URI');
         return;
       }
+
+      console.log(`[Verse LSP] Received ${diagnosticsParams.diagnostics.length} diagnostics for ${diagnosticsParams.uri}`);
 
       // Convert LSP diagnostics to our format
       const verseDiagnostics: VerseDiagnostic[] = diagnosticsParams.diagnostics.map((diag) => ({
@@ -214,6 +217,10 @@ export class VerseLSPClient {
 
       // Store diagnostics for this URI
       this.diagnostics.set(diagnosticsParams.uri, verseDiagnostics);
+
+      if (verseDiagnostics.length > 0) {
+        console.log('[Verse LSP] Diagnostics:', verseDiagnostics.map(d => `${d.line}:${d.column} - ${d.message}`));
+      }
     } catch (error) {
       console.error('[Verse LSP] Failed to parse diagnostics:', error);
     }
