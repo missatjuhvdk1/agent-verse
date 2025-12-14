@@ -2,7 +2,7 @@
 set -e
 
 # =============================================================================
-# Agent Smith Installer - Production Grade (Source Install)
+# Agent Verse Installer - Production Grade (Source Install)
 # =============================================================================
 # Clones from source, builds, and installs with full error handling
 # =============================================================================
@@ -16,8 +16,8 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO="Meesvandenkieboom/agent-smith"
-APP_NAME="agent-smith"
+REPO="missatjuhvdk1/agent-verse"
+APP_NAME="agent-verse"
 BRANCH="main"
 MIN_DISK_SPACE_MB=200
 GITHUB_REPO_URL="https://github.com/${REPO}.git"
@@ -182,20 +182,20 @@ detect_platform() {
     Darwin)
       OS_NAME="macOS"
       OS_PREFIX="macos"
-      INSTALL_DIR="$HOME/Applications/agent-smith-app"
+      INSTALL_DIR="$HOME/Applications/agent-verse-app"
       ;;
     Linux)
       OS_NAME="Linux"
       OS_PREFIX="linux"
-      INSTALL_DIR="$HOME/.local/share/agent-smith-app"
+      INSTALL_DIR="$HOME/.local/share/agent-verse-app"
       ;;
     MINGW*|MSYS*|CYGWIN*)
       OS_NAME="Windows (Git Bash)"
       OS_PREFIX="windows"
       if [[ -n "$LOCALAPPDATA" ]]; then
-        INSTALL_DIR="$LOCALAPPDATA/Programs/agent-smith-app"
+        INSTALL_DIR="$LOCALAPPDATA/Programs/agent-verse-app"
       else
-        INSTALL_DIR="$USERPROFILE/AppData/Local/Programs/agent-smith-app"
+        INSTALL_DIR="$USERPROFILE/AppData/Local/Programs/agent-verse-app"
       fi
       ;;
     *)
@@ -242,7 +242,7 @@ check_existing_installation() {
     # Check if there's a running process
     if [[ "$OS_PREFIX" == "macos" || "$OS_PREFIX" == "linux" ]]; then
       if lsof -ti:3001 > /dev/null 2>&1; then
-        log_warning "Agent Smith appears to be running (port 3001 in use)"
+        log_warning "Agent Verse appears to be running (port 3001 in use)"
         echo ""
         read -p "Stop the running instance and upgrade? [y/N]: " stop_running < /dev/tty
 
@@ -252,7 +252,7 @@ check_existing_installation() {
           log_success "Stopped running instance"
         else
           fatal_error "Installation cancelled" \
-            "Stop Agent Smith manually and try again"
+            "Stop Agent Verse manually and try again"
         fi
       fi
     fi
@@ -270,9 +270,9 @@ check_existing_installation() {
 # =============================================================================
 
 clone_repository() {
-  log_section "Cloning Agent Smith from GitHub"
+  log_section "Cloning Agent Verse from GitHub"
 
-  CLONE_DIR="/tmp/agent-smith-clone-$$"
+  CLONE_DIR="/tmp/agent-verse-clone-$$"
   TEMP_DIRS+=("$CLONE_DIR")
 
   log_info "Cloning repository..."
@@ -325,7 +325,7 @@ install_bun() {
 # =============================================================================
 
 build_application() {
-  log_section "Building Agent Smith"
+  log_section "Building Agent Verse"
 
   cd "$CLONE_DIR"
 
@@ -378,7 +378,7 @@ build_application() {
 # =============================================================================
 
 install_application() {
-  log_section "Installing Agent Smith"
+  log_section "Installing Agent Verse"
 
   # Create install directory
   log_info "Creating installation directory..."
@@ -396,25 +396,25 @@ install_application() {
   local TOKENS_BACKUP=""
 
   if [[ -f "$ENV_FILE" ]]; then
-    ENV_BACKUP="/tmp/agent-smith-env-backup-$$"
+    ENV_BACKUP="/tmp/agent-verse-env-backup-$$"
     cp "$ENV_FILE" "$ENV_BACKUP"
     log_info "Backed up .env to temporary location"
   fi
 
   if [[ -f "$SERVER_ENV_FILE" ]]; then
-    SERVER_ENV_BACKUP="/tmp/agent-smith-server-env-backup-$$"
+    SERVER_ENV_BACKUP="/tmp/agent-verse-server-env-backup-$$"
     cp "$SERVER_ENV_FILE" "$SERVER_ENV_BACKUP"
     log_info "Backed up server/.env (GitHub credentials) to temporary location"
   fi
 
   if [[ -d "$DATA_DIR" ]]; then
-    DATA_BACKUP="/tmp/agent-smith-data-backup-$$"
+    DATA_BACKUP="/tmp/agent-verse-data-backup-$$"
     cp -r "$DATA_DIR" "$DATA_BACKUP"
     log_info "Backed up data directory to temporary location"
   fi
 
   if [[ -f "$TOKENS_FILE" ]]; then
-    TOKENS_BACKUP="/tmp/agent-smith-tokens-backup-$$"
+    TOKENS_BACKUP="/tmp/agent-verse-tokens-backup-$$"
     cp "$TOKENS_FILE" "$TOKENS_BACKUP"
     log_info "Backed up OAuth tokens to temporary location"
   fi
@@ -644,7 +644,7 @@ configure_personalization() {
 
   log_section "Personalization (Optional)"
 
-  echo "Agent Smith can personalize your experience with your name."
+  echo "Agent Verse can personalize your experience with your name."
   echo ""
   read -p "Enter your name (or press Enter to skip): " user_name < /dev/tty
 
@@ -690,9 +690,9 @@ create_global_launcher() {
 
   # Check if global launcher already exists
   local GLOBAL_LAUNCHER_EXISTS=false
-  if [[ "$OS_PREFIX" == "windows" ]] && [[ -f "$HOME/bin/agent-smith" ]]; then
+  if [[ "$OS_PREFIX" == "windows" ]] && [[ -f "$HOME/bin/agent-verse" ]]; then
     GLOBAL_LAUNCHER_EXISTS=true
-  elif [[ ("$OS_PREFIX" == "macos" || "$OS_PREFIX" == "linux") ]] && [[ -f "/usr/local/bin/agent-smith" ]]; then
+  elif [[ ("$OS_PREFIX" == "macos" || "$OS_PREFIX" == "linux") ]] && [[ -f "/usr/local/bin/agent-verse" ]]; then
     GLOBAL_LAUNCHER_EXISTS=true
   fi
 
@@ -779,14 +779,14 @@ cd \"$INSTALL_DIR\" && \"$BUN_PATH\" run server/server.ts \"\$@\"
 show_success_message() {
   log_section "Installation Successful! 🎉"
 
-  echo -e "${GREEN}Agent Smith has been installed successfully!${NC}"
+  echo -e "${GREEN}Agent Verse has been installed successfully!${NC}"
   echo ""
   echo -e "${BLUE}📍 Installation Location:${NC}"
   echo -e "   $INSTALL_DIR"
   echo ""
 
   # Platform-specific launch instructions
-  echo -e "${BLUE}🚀 How to Start Agent Smith:${NC}"
+  echo -e "${BLUE}🚀 How to Start Agent Verse:${NC}"
   echo ""
 
   if [[ "$OS_PREFIX" == "windows" ]]; then
@@ -841,7 +841,7 @@ main() {
   # Print banner
   echo ""
   echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-  echo -e "${CYAN}   Agent Smith Installer${NC}"
+  echo -e "${CYAN}   Agent Verse Installer${NC}"
   echo -e "${CYAN}   Production-Grade Installation from Source${NC}"
   echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
   echo ""
