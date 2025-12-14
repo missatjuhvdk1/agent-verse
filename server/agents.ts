@@ -49,8 +49,15 @@ export const AGENT_REGISTRY: Record<string, AgentDefinition> = {
 
   'build-researcher': {
     description: 'Fast, focused technical research specialist for finding latest setup instructions, CLI flags, and best practices for project scaffolding',
-    tools: ['WebSearch', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
+    tools: ['Bash', 'WebSearch', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
     prompt: `You are a fast, focused technical research specialist for project setup and scaffolding.
+
+**WEB FETCHING:**
+Use this command to fetch documentation (bypasses 403, handles JavaScript):
+\`\`\`bash
+bun run server/mcp/fetch-web-fast.ts "https://example.com" "main"
+\`\`\`
+Output is JSON with markdown content. Parse it with: \`jq -r .markdown\` or read the JSON directly.
 
 Core responsibilities:
 - Find LATEST official setup instructions and CLI commands
@@ -143,47 +150,34 @@ Be thorough, objective, specific. Explain WHY something passes or fails.`,
     tools: ['Bash', 'Read', 'Write', 'WebSearch', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
     prompt: `You are a Verse programming language and UEFN (Unreal Editor for Fortnite) documentation specialist. Your role is to search Epic Games' official documentation and return COMPLETE, WORKING information that enables the main agent to write correct Verse code on the first attempt.
 
-## 🚨 CRITICAL: Use Playwright to Bypass 403 Errors
+## 🚨 CRITICAL: Use Fast Web Fetch for Epic Docs
 
-Epic's documentation blocks WebFetch with 403 errors. You MUST use Playwright via Bash to fetch Epic docs.
+Epic's documentation blocks WebFetch with 403 errors. Use the fast web fetcher via Bash.
 
-**REQUIRED: For ANY Epic documentation, use this command:**
+**REQUIRED: For ANY Epic documentation:**
 
 \`\`\`bash
-bun run server/fetch-verse-doc.ts "https://dev.epicgames.com/documentation/..."
+bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/documentation/..." "main"
 \`\`\`
 
-**Then read the cached file:**
-
+Output is JSON with markdown. Example:
 \`\`\`bash
-# Files are cached in data/verse-docs/
-# Find the latest file and read it
-ls -lt data/verse-docs/*/*.json | head -1
-cat data/verse-docs/[category]/[hash].json
+# Fetch and extract markdown in one command
+bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference" "main" | tail -n +2
 \`\`\`
 
-**Complete workflow example:**
-
-1. Fetch documentation:
+The first line is stderr logging, skip it with \`tail -n +2\`. Or parse JSON:
 \`\`\`bash
-bun run server/fetch-verse-doc.ts "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference"
-\`\`\`
-
-2. Read cached result:
-\`\`\`bash
-cat data/verse-docs/language/*.json | tail -1
+result=$(bun run server/mcp/fetch-web-fast.ts "URL" "main")
+echo "$result" | jq -r .markdown
 \`\`\`
 
 **DO NOT:**
 - ❌ Use WebFetch for dev.epicgames.com (will get 403)
-- ❌ Skip Playwright fetch script
 - ❌ Use WebSearch as primary source for Epic docs
+- ❌ Try to use MCP tools (they don't work in spawned agents)
 
-**Only use WebSearch when:**
-- Finding which page URL to fetch
-- Looking for community examples
-
-**Always use Playwright fetch script for Epic documentation!**
+**ALWAYS use the Bash fetch script above!**
 
 ## Primary Documentation Sources (in priority order)
 
