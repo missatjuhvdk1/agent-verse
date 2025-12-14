@@ -347,17 +347,36 @@ export function getVerseLSPPath(): string | null {
   }
 
   if (homeDir) {
-    const vscodeExtPath = join(
-      homeDir,
-      '.vscode',
-      'extensions'
-    );
+    // Check multiple extension directories (VSCode, Cursor, etc.)
+    const extensionDirs = [
+      join(homeDir, '.vscode', 'extensions'),
+      join(homeDir, '.cursor', 'extensions'),
+    ];
 
-    // Try to find the Verse extension
-    // In production, we'd use fs.readdir to find the exact version
-    // For now, return a known path
-    const knownPath = join(vscodeExtPath, 'epicgames.verse-0.0.48971054', 'bin', 'Win64', 'verse-lsp.exe');
-    return knownPath;
+    // Try to find the Verse extension (any version) in any directory
+    for (const extDir of extensionDirs) {
+      try {
+        const fs = require('fs');
+        if (!fs.existsSync(extDir)) continue;
+
+        const extensions = fs.readdirSync(extDir);
+
+        // Find epicgames.verse extension (any version)
+        const verseExt = extensions.find((ext: string) => ext.startsWith('epicgames.verse-'));
+
+        if (verseExt) {
+          const lspPath = join(extDir, verseExt, 'bin', 'Win64', 'verse-lsp.exe');
+
+          // Verify file exists
+          if (fs.existsSync(lspPath)) {
+            return lspPath;
+          }
+        }
+      } catch (error) {
+        // Directory doesn't exist or can't be read, continue to next
+        continue;
+      }
+    }
   }
 
   return null;
