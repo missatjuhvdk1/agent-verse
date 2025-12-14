@@ -39,6 +39,23 @@ type McpServerConfig = McpHttpServerConfig | McpStdioServerConfig;
  * MCP servers configuration for different providers
  * - Shared MCP servers (grep.app): Available to all providers
  * - Provider-specific MCP servers: Z.AI has additional web-search and media analysis tools
+ *
+ * IMPORTANT: MCP Server Accessibility
+ * ====================================
+ * - Main agent: Has FULL access to all MCP servers configured here
+ * - Spawned sub-agents (via Task tool): DO NOT inherit MCP servers from parent
+ *
+ * This is a Claude Agent SDK architectural limitation. When an agent spawns a sub-agent,
+ * the sub-agent runs in a separate subprocess without inheriting the parent's MCP configuration.
+ *
+ * WORKAROUND: Spawned agents use Bash to call scripts directly
+ * - fetch-web-fast.ts: Fast web fetch via Playwright (CLI wrapper)
+ * - grep.app MCP: Works because it's HTTP-based (stateless)
+ *
+ * Why the MCP tool list in agents.ts doesn't work for spawned agents:
+ * - Tools array in agent definitions is for RESTRICTION, not ADDITION
+ * - Even if 'mcp__web__fetch_page' is listed, the MCP server isn't available in the subprocess
+ * - Grep MCP (mcp__grep__searchGitHub) works because it's HTTP (no subprocess state needed)
  */
 export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpServerConfig>> = {
   'anthropic': {

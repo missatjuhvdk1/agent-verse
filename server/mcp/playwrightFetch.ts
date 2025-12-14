@@ -69,14 +69,16 @@ export class PlaywrightFetcher {
       this.browser = await chromium.launch({
         headless: true,
         // Don't specify executablePath - use bundled Chromium
+        // Don't set timeout - Windows has connection issues with custom timeouts
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
+          '--disable-gpu', // Faster for headless
         ],
       });
       this.initialized = true;
-      console.log('[Playwright] Browser initialized successfully');
+      console.log('[Playwright] Browser initialized successfully (persistent mode)');
     } catch (error) {
       console.error('[Playwright] Failed to initialize:', error);
       throw error;
@@ -101,16 +103,16 @@ export class PlaywrightFetcher {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
       });
 
-      // Navigate to the page
+      // Navigate to the page (domcontentloaded is 3-5x faster than networkidle)
       await page.goto(options.url, {
-        waitUntil: 'networkidle',
-        timeout: options.waitTime || 30000,
+        waitUntil: 'domcontentloaded', // Don't wait for ALL network requests
+        timeout: options.waitTime || 10000, // Reduced from 30s to 10s
       });
 
       // Wait for specific element if requested
       if (options.waitFor) {
         await page.waitForSelector(options.waitFor, {
-          timeout: options.waitTime || 30000,
+          timeout: options.waitTime || 5000, // Reduced from 30s to 5s
         });
       }
 
@@ -118,9 +120,9 @@ export class PlaywrightFetcher {
       const title = await page.title();
       const pageUrl = new URL(options.url);
 
-      // Extract links from the page
+      // Extract links from the page (limit to first 100 for speed)
       const links = await page.evaluate((baseUrl) => {
-        const anchors = Array.from(document.querySelectorAll('a[href]'));
+        const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, 100); // Limit to 100 links
         const baseUrlObj = new URL(baseUrl);
 
         return anchors.map(a => {
@@ -160,14 +162,22 @@ export class PlaywrightFetcher {
         textContent = await page.evaluate(() => document.body.innerText);
       }
 
-      // Convert HTML to Markdown
+      // Convert HTML to Markdown (limit content size first for speed)
+      const contentToConvert = content.length > 500000 ? content.slice(0, 500000) : content;
+
       const turndownService = new TurndownService({
         headingStyle: 'atx',
         codeBlockStyle: 'fenced',
         bulletListMarker: '-',
       });
 
-      const markdown = turndownService.turndown(content);
+      // Remove scripts, styles, and SVGs before conversion (faster)
+      const cleanedContent = contentToConvert
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+        .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '');
+
+      const markdown = turndownService.turndown(cleanedContent);
 
       // Take screenshot if requested
       let screenshot: string | undefined;

@@ -28,10 +28,14 @@ async function fetchPage(url: string, contentSelector?: string): Promise<FetchRe
   try {
     console.error(`[fetch-web-fast] Launching browser for ${url}...`);
 
-    // Launch browser with timeout
+    // Launch browser (let Playwright use default timeout - Windows has connection issues with custom timeouts)
     browser = await chromium.launch({
       headless: true,
-      timeout: 10000, // 10s max for browser launch
+      args: [
+        '--disable-gpu',
+        '--disable-dev-shm-usage',
+        '--no-sandbox',
+      ],
     });
 
     const page = await browser.newPage();
@@ -46,7 +50,7 @@ async function fetchPage(url: string, contentSelector?: string): Promise<FetchRe
     // Navigate with faster timeout and domcontentloaded (not networkidle!)
     await page.goto(url, {
       waitUntil: 'domcontentloaded', // Don't wait for ALL network requests
-      timeout: 15000, // 15s max for page load
+      timeout: 7000, // 7s max for page load (reduced from 15s)
     });
 
     const title = await page.title();
@@ -71,17 +75,21 @@ async function fetchPage(url: string, contentSelector?: string): Promise<FetchRe
     await page.close();
     await browser.close();
 
-    // Convert to markdown (fast - no complex processing)
+    // Convert to markdown (fast - limit size and clean content)
+    const contentToConvert = content.length > 500000 ? content.slice(0, 500000) : content;
+
     const turndown = new TurndownService({
       headingStyle: 'atx',
       codeBlockStyle: 'fenced',
     });
 
-    // Remove scripts and styles before conversion
-    content = content.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-    content = content.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
+    // Remove scripts, styles, and SVGs before conversion (faster)
+    const cleanedContent = contentToConvert
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+      .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '');
 
-    const markdown = turndown.turndown(content);
+    const markdown = turndown.turndown(cleanedContent);
 
     console.error(`[fetch-web-fast] Success! Markdown length: ${markdown.length} chars`);
 
