@@ -1,1 +1,1 @@
-curl -fsSL https://raw.githubusercontent.com/Meesvandenkieboom/agent-smith/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/missatjuhvdk1/agent-verse/main/install.sh | bash

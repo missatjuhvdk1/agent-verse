@@ -82,8 +82,8 @@ function getWindowsUsername(): string | null {
 
 /**
  * Get the default working directory for agent operations
- * Cross-platform: ~/Documents/agent-smith (Mac/Linux) or C:\Users\{user}\Documents\agent-smith (Windows)
- * WSL: Uses Windows path (/mnt/c/Users/{user}/Documents/agent-smith)
+ * Cross-platform: ~/Documents/agent-verse (Mac/Linux) or C:\Users\{user}\Documents\agent-verse (Windows)
+ * WSL: Uses Windows path (/mnt/c/Users/{user}/Documents/agent-verse)
  */
 export function getDefaultWorkingDirectory(): string {
   let homeDir = os.homedir();
@@ -97,7 +97,7 @@ export function getDefaultWorkingDirectory(): string {
     }
   }
 
-  const defaultDir = path.join(homeDir, 'Documents', 'agent-smith');
+  const defaultDir = path.join(homeDir, 'Documents', 'agent-verse');
 
   // Startup logs are now consolidated in server.ts
   // console.log('🏠 Platform:', os.platform());
@@ -109,11 +109,11 @@ export function getDefaultWorkingDirectory(): string {
 
 /**
  * Get the app data directory for storing database and app files
- * Cross-platform: ~/Documents/agent-smith-app
+ * Cross-platform: ~/Documents/agent-verse-app
  */
 export function getAppDataDirectory(): string {
   const homeDir = os.homedir();
-  const appDataDir = path.join(homeDir, 'Documents', 'agent-smith-app');
+  const appDataDir = path.join(homeDir, 'Documents', 'agent-verse-app');
 
   return appDataDir;
 }
@@ -272,7 +272,7 @@ export function getPlatformInfo(): {
  * Phase 0.1: Separates metadata from workspace to fix CLAUDE.md deletion bug
  */
 export interface SessionPaths {
-  root: string;           // ~/Documents/agent-smith/chat-{id}
+  root: string;           // ~/Documents/agent-verse/chat-{id}
   claudeDir: string;      // root/.claude (SDK metadata)
   metadata: string;       // root/metadata (chat-specific files)
   claudeMd: string;       // root/metadata/CLAUDE.md

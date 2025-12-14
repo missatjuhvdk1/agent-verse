@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * Agent Smith - Global CLI launcher
+ * Agent Verse - Global CLI launcher
  *
- * This script allows running agent-smith from anywhere via:
- *   agent-smith
- *   agent-smith --setup
- *   agent-smith --login
- *   agent-smith --logout
- *   agent-smith --status
- *   agent-smith --update
+ * This script allows running agent-verse from anywhere via:
+ *   agent-verse
+ *   agent-verse --setup
+ *   agent-verse --login
+ *   agent-verse --logout
+ *   agent-verse --status
+ *   agent-verse --update
  */
 
 import { spawn } from 'child_process';
@@ -40,7 +40,7 @@ if (!bunAvailable) {
 const args = process.argv.slice(2);
 const serverPath = join(projectRoot, 'server', 'server.ts');
 
-console.log('🚀 Starting Agent Smith...\n');
+console.log('🚀 Starting Agent Verse...\n');
 
 const proc = spawn('bun', ['run', serverPath, ...args], {
   cwd: projectRoot,

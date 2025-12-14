@@ -1,10 +1,10 @@
 {
-  "name": "agent-smith",
+  "name": "agent-verse",
   "version": "9.0.0",
   "type": "module",
   "main": "index.js",
   "bin": {
-    "agent-smith": "./bin/agent-smith.js"
+    "agent-verse": "./bin/agent-verse.js"
   },
   "scripts": {
     "dev": "bun run server/server.ts",
@@ -23,7 +23,7 @@
   },
   "author": "KenKai",
   "license": "AGPL-3.0-or-later",
-  "description": "Agent Smith - Modern chat interface for Claude Agent SDK",
+  "description": "Agent Verse - Modern chat interface for Claude Agent SDK",
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.1.46",
     "@modelcontextprotocol/sdk": "^1.24.3",
