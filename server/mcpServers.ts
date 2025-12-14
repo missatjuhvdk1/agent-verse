@@ -81,7 +81,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
     'web': {
       type: 'stdio',
       command: 'node',
-      args: ['server/mcp/web-fetch/build/index.js'],
+      args: [process.cwd() + '/server/mcp/web-fetch/build/index.js'],
     },
     // GLM models use Z.AI MCP servers
     'web-search-prime': {
@@ -111,7 +111,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
     'web': {
       type: 'stdio',
       command: 'node',
-      args: ['server/mcp/web-fetch/build/index.js'],
+      args: [process.cwd() + '/server/mcp/web-fetch/build/index.js'],
     },
   },
 };
