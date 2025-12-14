@@ -173,6 +173,25 @@ export class VerseLSPClient {
   }
 
   /**
+   * Send LSP notification (no response expected)
+   */
+  private sendNotification(method: string, params: unknown): void {
+    if (!this.process || !this.process.stdin) {
+      throw new Error('LSP client not started');
+    }
+
+    const message = {
+      jsonrpc: '2.0',
+      method,
+      params,
+    };
+
+    const messageStr = JSON.stringify(message);
+    const messageWithHeaders = `Content-Length: ${messageStr.length}\r\n\r\n${messageStr}`;
+    this.process.stdin.write(messageWithHeaders);
+  }
+
+  /**
    * Send LSP request and wait for response
    */
   private async sendRequest(method: string, params: unknown): Promise<unknown> {
@@ -254,9 +273,9 @@ export class VerseLSPClient {
       // Write code to temp file
       await writeFile(tempFile, code, 'utf-8');
 
-      // Open document in LSP
+      // Open document in LSP (notification, not request)
       const fileUri = `file:///${tempFile.replace(/\\/g, '/')}`;
-      await this.sendRequest('textDocument/didOpen', {
+      this.sendNotification('textDocument/didOpen', {
         textDocument: {
           uri: fileUri,
           languageId: 'verse',
