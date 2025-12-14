@@ -1,60 +1,164 @@
 #!/usr/bin/env bun
 /**
- * Fast web fetch using Playwright
+ * Fast Web Fetch with Playwright
  *
- * CLI wrapper for Playwright web fetching that can be called via Bash tool.
- * Much faster than MCP server approach - agents call this directly via Bash.
+ * High-performance docs scraper that bypasses 403 errors (including Epic Games).
+ * Works for both main agents and sub-agents via CLI.
  *
  * Usage:
  *   bun run server/mcp/fetch-web-fast.ts <url> [contentSelector]
  *
- * Output: JSON to stdout
+ * Examples:
+ *   bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/documentation/en-us/uefn/verse-api-reference"
+ *   bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/docs" "main"
+ *
+ * Output: JSON with { success, url, title, markdown, links, error? }
  */
 
 import { chromium, type Browser } from 'playwright';
 import TurndownService from 'turndown';
+
+interface ExtractedLink {
+  text: string;
+  href: string;
+  isInternal: boolean;
+}
 
 interface FetchResult {
   success: boolean;
   url: string;
   title: string;
   markdown: string;
+  links: ExtractedLink[];
+  stats: {
+    fetchTimeMs: number;
+    contentLength: number;
+    linkCount: number;
+  };
   error?: string;
 }
 
+/**
+ * Extract links from page for easy navigation
+ */
+async function extractLinks(page: any, baseUrl: string, maxLinks = 150): Promise<ExtractedLink[]> {
+  try {
+    return await page.evaluate((args: { baseUrl: string; maxLinks: number }) => {
+      const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, args.maxLinks);
+      const baseUrlObj = new URL(args.baseUrl);
+
+      return anchors
+        .map(a => {
+          const href = (a as HTMLAnchorElement).href;
+          const text = (a as HTMLAnchorElement).textContent?.trim() || '';
+
+          try {
+            const linkUrl = new URL(href);
+            const isInternal = linkUrl.hostname === baseUrlObj.hostname;
+            return { text, href, isInternal };
+          } catch {
+            return { text, href, isInternal: false };
+          }
+        })
+        .filter(link => link.href && link.href !== '#' && link.text.length > 0);
+    }, { baseUrl, maxLinks });
+  } catch (error) {
+    console.error('[fetch-web-fast] Failed to extract links:', error);
+    return [];
+  }
+}
+
+/**
+ * Clean and convert HTML to Markdown
+ */
+function convertToMarkdown(html: string): string {
+  // Pre-clean HTML before conversion (faster)
+  const cleaned = html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+    .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '')
+    .replace(/<nav\b[^<]*(?:(?!<\/nav>)<[^<]*)*<\/nav>/gi, '') // Remove navigation
+    .replace(/<footer\b[^<]*(?:(?!<\/footer>)<[^<]*)*<\/footer>/gi, '') // Remove footers
+    .replace(/<!--[\s\S]*?-->/g, ''); // Remove comments
+
+  const turndown = new TurndownService({
+    headingStyle: 'atx',
+    codeBlockStyle: 'fenced',
+    bulletListMarker: '-',
+  });
+
+  // Keep code blocks properly formatted
+  turndown.addRule('codeBlock', {
+    filter: ['pre'],
+    replacement: (content) => {
+      return '\n```\n' + content + '\n```\n';
+    }
+  });
+
+  return turndown.turndown(cleaned);
+}
+
+/**
+ * Fetch a web page with Playwright
+ */
 async function fetchPage(url: string, contentSelector?: string): Promise<FetchResult> {
+  const startTime = Date.now();
   let browser: Browser | null = null;
 
   try {
-    console.error(`[fetch-web-fast] Launching browser for ${url}...`);
+    console.error(`[fetch-web-fast] 🚀 Fetching: ${url}`);
 
-    // Launch browser (let Playwright use default timeout - Windows has connection issues with custom timeouts)
+    // Launch browser with Epic Games-friendly settings
     browser = await chromium.launch({
       headless: true,
       args: [
+        '--disable-blink-features=AutomationControlled', // Hide automation detection
         '--disable-gpu',
         '--disable-dev-shm-usage',
         '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-web-security', // For CORS issues
       ],
     });
 
-    const page = await browser.newPage();
-
-    // Set realistic user agent
-    await page.setExtraHTTPHeaders({
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    const context = await browser.newContext({
+      // Realistic browser fingerprint to bypass 403
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+      viewport: { width: 1920, height: 1080 },
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      extraHTTPHeaders: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+      },
     });
 
-    console.error(`[fetch-web-fast] Navigating to ${url}...`);
+    // Override navigator.webdriver to hide automation
+    await context.addInitScript(() => {
+      Object.defineProperty(navigator, 'webdriver', {
+        get: () => undefined,
+      });
+    });
 
-    // Navigate with faster timeout and domcontentloaded (not networkidle!)
+    const page = await context.newPage();
+
+    console.error(`[fetch-web-fast] 📡 Navigating...`);
+
+    // Navigate with optimal timeout
     await page.goto(url, {
-      waitUntil: 'domcontentloaded', // Don't wait for ALL network requests
-      timeout: 7000, // 7s max for page load (reduced from 15s)
+      waitUntil: 'domcontentloaded', // Fast, don't wait for all resources
+      timeout: 8000, // 8 seconds max
     });
+
+    // Wait a tiny bit for dynamic content (Epic Games docs load via JS)
+    await page.waitForTimeout(500);
 
     const title = await page.title();
-    console.error(`[fetch-web-fast] Page loaded: ${title}`);
+    console.error(`[fetch-web-fast] ✓ Page loaded: ${title}`);
 
     // Extract content
     let content: string;
@@ -63,41 +167,62 @@ async function fetchPage(url: string, contentSelector?: string): Promise<FetchRe
       const element = await page.$(contentSelector);
       if (element) {
         content = await element.evaluate(el => el.outerHTML);
-        console.error(`[fetch-web-fast] Using selector: ${contentSelector}`);
+        console.error(`[fetch-web-fast] ✓ Using selector: ${contentSelector}`);
       } else {
-        console.error(`[fetch-web-fast] Selector '${contentSelector}' not found, using body`);
+        console.error(`[fetch-web-fast] ⚠ Selector '${contentSelector}' not found, using body`);
         content = await page.evaluate(() => document.body.outerHTML);
       }
     } else {
-      content = await page.evaluate(() => document.body.outerHTML);
+      // Try common content selectors for better extraction
+      const commonSelectors = ['main', 'article', '[role="main"]', '.content', '#content'];
+      let found = false;
+
+      for (const selector of commonSelectors) {
+        const element = await page.$(selector);
+        if (element) {
+          content = await element.evaluate(el => el.outerHTML);
+          console.error(`[fetch-web-fast] ✓ Auto-detected content area: ${selector}`);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        content = await page.evaluate(() => document.body.outerHTML);
+      }
     }
 
+    // Extract links for navigation
+    console.error(`[fetch-web-fast] 🔗 Extracting links...`);
+    const links = await extractLinks(page, url);
+
     await page.close();
+    await context.close();
     await browser.close();
 
-    // Convert to markdown (fast - limit size and clean content)
-    const contentToConvert = content.length > 500000 ? content.slice(0, 500000) : content;
+    // Convert to markdown
+    console.error(`[fetch-web-fast] 📝 Converting to markdown...`);
+    const limitedContent = content.length > 800000 ? content.slice(0, 800000) : content;
+    const markdown = convertToMarkdown(limitedContent);
 
-    const turndown = new TurndownService({
-      headingStyle: 'atx',
-      codeBlockStyle: 'fenced',
-    });
+    // Limit final markdown to prevent overwhelming context
+    const finalMarkdown = markdown.length > 100000 ? markdown.slice(0, 100000) + '\n\n[... content truncated for length ...]' : markdown;
 
-    // Remove scripts, styles, and SVGs before conversion (faster)
-    const cleanedContent = contentToConvert
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-      .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '');
+    const fetchTimeMs = Date.now() - startTime;
 
-    const markdown = turndown.turndown(cleanedContent);
-
-    console.error(`[fetch-web-fast] Success! Markdown length: ${markdown.length} chars`);
+    console.error(`[fetch-web-fast] ✅ Success! (${fetchTimeMs}ms, ${links.length} links, ${finalMarkdown.length} chars)`);
 
     return {
       success: true,
       url,
       title,
-      markdown: markdown.slice(0, 50000), // Limit to 50K chars to avoid overwhelming context
+      markdown: finalMarkdown,
+      links,
+      stats: {
+        fetchTimeMs,
+        contentLength: finalMarkdown.length,
+        linkCount: links.length,
+      },
     };
 
   } catch (error) {
@@ -105,32 +230,73 @@ async function fetchPage(url: string, contentSelector?: string): Promise<FetchRe
       await browser.close();
     }
 
-    console.error(`[fetch-web-fast] Error:`, error);
+    const fetchTimeMs = Date.now() - startTime;
+    console.error(`[fetch-web-fast] ❌ Error (${fetchTimeMs}ms):`, error);
 
     return {
       success: false,
       url,
       title: '',
       markdown: '',
+      links: [],
+      stats: {
+        fetchTimeMs,
+        contentLength: 0,
+        linkCount: 0,
+      },
       error: error instanceof Error ? error.message : String(error),
     };
   }
 }
 
-// Parse CLI args
+/**
+ * Format result for agent consumption
+ */
+function formatResult(result: FetchResult): string {
+  if (!result.success) {
+    return JSON.stringify(result, null, 2);
+  }
+
+  // Group links by type for better organization
+  const internalLinks = result.links.filter(l => l.isInternal);
+  const externalLinks = result.links.filter(l => !l.isInternal);
+
+  // Create a nicely formatted output
+  const output = {
+    success: true,
+    url: result.url,
+    title: result.title,
+    stats: result.stats,
+    content: result.markdown,
+    navigation: {
+      internal: internalLinks.slice(0, 100), // Limit to 100 most relevant
+      external: externalLinks.slice(0, 20),  // Limit external links
+    },
+  };
+
+  return JSON.stringify(output, null, 2);
+}
+
+// ============================================================================
+// CLI Entry Point
+// ============================================================================
+
 const args = process.argv.slice(2);
 if (args.length === 0) {
   console.error('Usage: bun run server/mcp/fetch-web-fast.ts <url> [contentSelector]');
+  console.error('');
+  console.error('Examples:');
+  console.error('  bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/documentation/en-us/uefn"');
+  console.error('  bun run server/mcp/fetch-web-fast.ts "https://example.com" "main"');
   process.exit(1);
 }
 
 const [url, contentSelector] = args;
 
-// Run fetch
+// Fetch and output
 fetchPage(url, contentSelector)
   .then(result => {
-    // Output JSON to stdout (agents will parse this)
-    console.log(JSON.stringify(result, null, 2));
+    console.log(formatResult(result));
     process.exit(result.success ? 0 : 1);
   })
   .catch(error => {

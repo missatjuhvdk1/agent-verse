@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * MCP server that provides web scraping via Playwright.
- * Bypasses 403 errors by using a real browser.
+ * Bypasses 403 errors (including Epic Games) by using a real browser with realistic fingerprint.
  */
 
 import { chromium, type Browser, type Page } from 'playwright';
@@ -47,6 +47,36 @@ export interface PlaywrightFetchResult {
 }
 
 /**
+ * Clean and convert HTML to Markdown
+ */
+function convertToMarkdown(html: string): string {
+  // Pre-clean HTML before conversion (faster)
+  const cleaned = html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+    .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '')
+    .replace(/<nav\b[^<]*(?:(?!<\/nav>)<[^<]*)*<\/nav>/gi, '') // Remove navigation
+    .replace(/<footer\b[^<]*(?:(?!<\/footer>)<[^<]*)*<\/footer>/gi, '') // Remove footers
+    .replace(/<!--[\s\S]*?-->/g, ''); // Remove comments
+
+  const turndown = new TurndownService({
+    headingStyle: 'atx',
+    codeBlockStyle: 'fenced',
+    bulletListMarker: '-',
+  });
+
+  // Keep code blocks properly formatted
+  turndown.addRule('codeBlock', {
+    filter: ['pre'],
+    replacement: (content) => {
+      return '\n```\n' + content + '\n```\n';
+    }
+  });
+
+  return turndown.turndown(cleaned);
+}
+
+/**
  * Playwright Web Fetcher
  *
  * Provides a headless browser for fetching web pages.
@@ -63,22 +93,21 @@ export class PlaywrightFetcher {
     if (this.initialized) return;
 
     try {
-      // Use bundled Chromium (Windows Chrome has WSL pipe issues)
-      console.log('[Playwright] Using bundled Chromium');
+      console.log('[Playwright] Initializing browser with anti-detection...');
 
       this.browser = await chromium.launch({
         headless: true,
-        // Don't specify executablePath - use bundled Chromium
-        // Don't set timeout - Windows has connection issues with custom timeouts
         args: [
+          '--disable-blink-features=AutomationControlled', // Hide automation detection
           '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
-          '--disable-gpu', // Faster for headless
+          '--disable-gpu',
+          '--disable-web-security',
         ],
       });
       this.initialized = true;
-      console.log('[Playwright] Browser initialized successfully (persistent mode)');
+      console.log('[Playwright] Browser initialized successfully');
     } catch (error) {
       console.error('[Playwright] Failed to initialize:', error);
       throw error;
@@ -93,26 +122,47 @@ export class PlaywrightFetcher {
       await this.initialize();
     }
 
-    const page: Page = await this.browser!.newPage();
+    // Create context with realistic browser fingerprint
+    const context = await this.browser!.newContext({
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+      viewport: { width: 1920, height: 1080 },
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      extraHTTPHeaders: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+      },
+    });
+
+    // Override navigator.webdriver to hide automation
+    await context.addInitScript(() => {
+      Object.defineProperty(navigator, 'webdriver', {
+        get: () => undefined,
+      });
+    });
+
+    const page: Page = await context.newPage();
 
     try {
       console.log(`[Playwright] Fetching: ${options.url}`);
 
-      // Set a realistic user agent
-      await page.setExtraHTTPHeaders({
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+      // Navigate to the page (domcontentloaded is faster than networkidle)
+      await page.goto(options.url, {
+        waitUntil: 'domcontentloaded',
+        timeout: options.waitTime || 8000, // 8s default
       });
 
-      // Navigate to the page (domcontentloaded is 3-5x faster than networkidle)
-      await page.goto(options.url, {
-        waitUntil: 'domcontentloaded', // Don't wait for ALL network requests
-        timeout: options.waitTime || 10000, // Reduced from 30s to 10s
-      });
+      // Wait a bit for dynamic content (Epic Games docs load via JS)
+      await page.waitForTimeout(500);
 
       // Wait for specific element if requested
       if (options.waitFor) {
         await page.waitForSelector(options.waitFor, {
-          timeout: options.waitTime || 5000, // Reduced from 30s to 5s
+          timeout: options.waitTime || 5000,
         });
       }
 
@@ -120,23 +170,25 @@ export class PlaywrightFetcher {
       const title = await page.title();
       const pageUrl = new URL(options.url);
 
-      // Extract links from the page (limit to first 100 for speed)
+      // Extract links from the page (limit to first 150 for speed)
       const links = await page.evaluate((baseUrl) => {
-        const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, 100); // Limit to 100 links
+        const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, 150);
         const baseUrlObj = new URL(baseUrl);
 
-        return anchors.map(a => {
-          const href = (a as HTMLAnchorElement).href;
-          const text = (a as HTMLAnchorElement).textContent?.trim() || '';
+        return anchors
+          .map(a => {
+            const href = (a as HTMLAnchorElement).href;
+            const text = (a as HTMLAnchorElement).textContent?.trim() || '';
 
-          try {
-            const linkUrl = new URL(href);
-            const isInternal = linkUrl.hostname === baseUrlObj.hostname;
-            return { text, href, isInternal };
-          } catch {
-            return { text, href, isInternal: false };
-          }
-        }).filter(link => link.href && link.href !== '#');
+            try {
+              const linkUrl = new URL(href);
+              const isInternal = linkUrl.hostname === baseUrlObj.hostname;
+              return { text, href, isInternal };
+            } catch {
+              return { text, href, isInternal: false };
+            }
+          })
+          .filter(link => link.href && link.href !== '#' && link.text.length > 0);
       }, options.url);
 
       // Extract content (optionally from a specific selector)
@@ -157,27 +209,35 @@ export class PlaywrightFetcher {
           textContent = await page.evaluate(() => document.body.innerText);
         }
       } else {
-        // Use full page content
-        content = await page.content();
-        textContent = await page.evaluate(() => document.body.innerText);
+        // Try common content selectors for better extraction
+        const commonSelectors = ['main', 'article', '[role="main"]', '.content', '#content'];
+        let found = false;
+
+        for (const selector of commonSelectors) {
+          const element = await page.$(selector);
+          if (element) {
+            content = await element.evaluate(el => el.outerHTML);
+            textContent = await element.evaluate(el => (el as HTMLElement).innerText);
+            console.log(`[Playwright] Auto-detected content area: ${selector}`);
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          content = await page.content();
+          textContent = await page.evaluate(() => document.body.innerText);
+        }
       }
 
       // Convert HTML to Markdown (limit content size first for speed)
-      const contentToConvert = content.length > 500000 ? content.slice(0, 500000) : content;
+      const contentToConvert = content.length > 800000 ? content.slice(0, 800000) : content;
+      const markdown = convertToMarkdown(contentToConvert);
 
-      const turndownService = new TurndownService({
-        headingStyle: 'atx',
-        codeBlockStyle: 'fenced',
-        bulletListMarker: '-',
-      });
-
-      // Remove scripts, styles, and SVGs before conversion (faster)
-      const cleanedContent = contentToConvert
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-        .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '');
-
-      const markdown = turndownService.turndown(cleanedContent);
+      // Limit final markdown to prevent overwhelming context
+      const finalMarkdown = markdown.length > 100000
+        ? markdown.slice(0, 100000) + '\n\n[... content truncated for length ...]'
+        : markdown;
 
       // Take screenshot if requested
       let screenshot: string | undefined;
@@ -187,6 +247,7 @@ export class PlaywrightFetcher {
       }
 
       await page.close();
+      await context.close();
 
       console.log(`[Playwright] Success: ${title} (${links.length} links found)`);
 
@@ -196,13 +257,14 @@ export class PlaywrightFetcher {
         title,
         content,
         textContent,
-        markdown,
+        markdown: finalMarkdown,
         links,
         screenshot,
       };
 
     } catch (error) {
       await page.close();
+      await context.close();
 
       console.error(`[Playwright] Error fetching ${options.url}:`, error);
 

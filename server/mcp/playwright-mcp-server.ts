@@ -113,22 +113,22 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     let linksSection = '';
 
     if (internalLinks.length > 0) {
-      linksSection += `\n\n## 🔗 Internal Links (${internalLinks.length})\n\n`;
-      // Limit to first 50 internal links to avoid overwhelming output
-      const displayLinks = internalLinks.slice(0, 50);
+      linksSection += `\n\n---\n\n## 🔗 Navigation - Internal Links (${internalLinks.length})\n\n`;
+      // Limit to first 80 internal links for better navigation
+      const displayLinks = internalLinks.slice(0, 80);
       linksSection += displayLinks.map(link => `- [${link.text || 'Link'}](${link.href})`).join('\n');
-      if (internalLinks.length > 50) {
-        linksSection += `\n\n... and ${internalLinks.length - 50} more internal links`;
+      if (internalLinks.length > 80) {
+        linksSection += `\n\n_... and ${internalLinks.length - 80} more internal links_`;
       }
     }
 
     if (externalLinks.length > 0) {
-      linksSection += `\n\n## 🌐 External Links (${externalLinks.length})\n\n`;
+      linksSection += `\n\n## 🌐 External References (${externalLinks.length})\n\n`;
       // Limit to first 20 external links
       const displayLinks = externalLinks.slice(0, 20);
       linksSection += displayLinks.map(link => `- [${link.text || 'Link'}](${link.href})`).join('\n');
       if (externalLinks.length > 20) {
-        linksSection += `\n\n... and ${externalLinks.length - 20} more external links`;
+        linksSection += `\n\n_... and ${externalLinks.length - 20} more external links_`;
       }
     }
 

@@ -69,21 +69,31 @@ Use Bash tool:
 bun run server/mcp/fetch-web-fast.ts "https://example.com" "main"
 \`\`\`
 
-Returns JSON with \`.markdown\` field. Parse it:
+Returns JSON with \`.content\` (markdown), \`.navigation\` (links), and \`.stats\`:
 \`\`\`bash
-# Get markdown directly
-bun run server/mcp/fetch-web-fast.ts "URL" "main" | tail -n +2 | jq -r .markdown
+# Get markdown content
+bun run server/mcp/fetch-web-fast.ts "URL" | jq -r .content
 
-# Or store result
+# Get internal links for navigation
+bun run server/mcp/fetch-web-fast.ts "URL" | jq -r '.navigation.internal[] | "[\(.text)](\(.href))"'
+
+# Store full result
 result=$(bun run server/mcp/fetch-web-fast.ts "URL")
-echo "$result" | jq -r .markdown
+echo "$result" | jq -r .content
 \`\`\`
+
+**Features:**
+- ✅ Fast (< 5s for most pages, 8s max)
+- ✅ Bypasses 403 (Epic Games, etc.) with realistic browser fingerprint
+- ✅ Extracts nested URLs (up to 100 internal, 20 external links)
+- ✅ Auto-detects main content area (main, article, etc.)
+- ✅ Works for both main agents AND sub-agents
 
 **When to use:**
 - Documentation sites (Epic, MDN, etc.)
 - Sites that block WebFetch with 403
 - JavaScript-heavy sites
-- Need content extraction from specific selector
+- Need nested links for navigation
 
 **Note:** MCP tool \`mcp__web__fetch_page\` also available but slower. Prefer Bash script for speed.`,
 
@@ -91,7 +101,7 @@ echo "$result" | jq -r .markdown
 
 CODE FIRST. Explain after (if asked). Match the user's language. Research libraries/docs before using them. Direct, concise, technical.
 
-**Web fetch:** \`bun run server/mcp/fetch-web-fast.ts "URL" "selector"\` - Returns JSON with markdown.`,
+**Web fetch:** \`bun run server/mcp/fetch-web-fast.ts "URL" ["selector"]\` - Fast docs scraper, bypasses 403, extracts links. Returns JSON: \`jq -r .content\` for markdown, \`.navigation.internal[]\` for links.`,
 
     'spark': `You are agent-verse${userName ? ` brainstorming with ${userName}` : ''}, in rapid-fire creative mode.
 
