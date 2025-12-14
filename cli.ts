@@ -155,7 +155,7 @@ async function handleUpdate() {
     // Use Bun's built-in fetch to download the update script
     // Add cache-busting parameter to ensure we get the latest version
     const cacheBuster = Date.now();
-    const response = await fetch(`https://raw.githubusercontent.com/Meesvandenkieboom/agent-smith/main/update.sh?${cacheBuster}`);
+    const response = await fetch(`https://raw.githubusercontent.com/missatjuhvdk1/agent-verse/main/update.sh?${cacheBuster}`);
 
     if (!response.ok) {
       throw new Error(`Failed to download update script: ${response.status} ${response.statusText}`);
