@@ -68,7 +68,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
     'web': {
       type: 'stdio',
       command: 'node',
-      args: ['server/mcp/web-fetch/build/index.js'],
+      args: [process.cwd() + '/server/mcp/web-fetch/build/index.js'],
     },
   },
   'z-ai': {
