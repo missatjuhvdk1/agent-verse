@@ -97,6 +97,7 @@ export class PlaywrightFetcher {
 
       this.browser = await chromium.launch({
         headless: true,
+        timeout: 60000, // 60s timeout for Windows
         args: [
           '--disable-blink-features=AutomationControlled', // Hide automation detection
           '--no-sandbox',

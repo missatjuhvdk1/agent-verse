@@ -14,18 +14,25 @@ High-performance documentation scraper that bypasses 403 errors (including Epic 
 
 ### For Agents (via Bash Tool)
 
-This is the **recommended** approach for all agents, especially sub-agents:
+**✅ Recommended:** Use Puppeteer version (Windows-compatible, no pipe issues)
 
 ```bash
 # Basic fetch
-bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/documentation/en-us/uefn/verse-api-reference"
+bun run server/mcp/fetch-web-puppeteer.ts "https://dev.epicgames.com/documentation/en-us/uefn/verse-api-reference"
 
 # With content selector (optional)
-bun run server/mcp/fetch-web-fast.ts "https://example.com" "main"
+bun run server/mcp/fetch-web-puppeteer.ts "https://example.com" "main"
 
 # Parse the JSON output
-bun run server/mcp/fetch-web-fast.ts "URL" | jq -r '.content'
-bun run server/mcp/fetch-web-fast.ts "URL" | jq -r '.navigation.internal[] | "\(.text): \(.href)"'
+bun run server/mcp/fetch-web-puppeteer.ts "URL" | jq -r '.content'
+bun run server/mcp/fetch-web-puppeteer.ts "URL" | jq -r '.navigation.internal[] | "\(.text): \(.href)"'
+```
+
+**Alternative:** Playwright version (may have Windows pipe communication issues)
+
+```bash
+# Use if Puppeteer has issues or on Linux/Mac
+bun run server/mcp/fetch-web-fast.ts "https://dev.epicgames.com/documentation/en-us/uefn/verse-api-reference"
 ```
 
 ### Output Format

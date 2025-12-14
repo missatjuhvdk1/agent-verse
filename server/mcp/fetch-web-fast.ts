@@ -109,17 +109,32 @@ async function fetchPage(url: string, contentSelector?: string): Promise<FetchRe
     console.error(`[fetch-web-fast] 🚀 Fetching: ${url}`);
 
     // Launch browser with Epic Games-friendly settings
-    browser = await chromium.launch({
-      headless: true,
-      args: [
-        '--disable-blink-features=AutomationControlled', // Hide automation detection
-        '--disable-gpu',
-        '--disable-dev-shm-usage',
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-web-security', // For CORS issues
-      ],
-    });
+    // Try using system Chrome if available (better Windows compatibility)
+    try {
+      browser = await chromium.launch({
+        channel: 'chrome', // Use system Chrome
+        headless: true,
+        timeout: 30000,
+        args: [
+          '--disable-blink-features=AutomationControlled',
+          '--disable-gpu',
+          '--no-sandbox',
+          '--disable-web-security',
+        ],
+      });
+    } catch {
+      // Fallback to bundled Chromium
+      browser = await chromium.launch({
+        headless: true,
+        timeout: 30000,
+        args: [
+          '--disable-blink-features=AutomationControlled',
+          '--disable-gpu',
+          '--no-sandbox',
+          '--disable-web-security',
+        ],
+      });
+    }
 
     const context = await browser.newContext({
       // Realistic browser fingerprint to bypass 403
