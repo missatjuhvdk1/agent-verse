@@ -49,6 +49,7 @@ export const AGENT_REGISTRY: Record<string, AgentDefinition> = {
 
   'build-researcher': {
     description: 'Fast, focused technical research specialist for finding latest setup instructions, CLI flags, and best practices for project scaffolding',
+    tools: ['WebSearch', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
     prompt: `You are a fast, focused technical research specialist for project setup and scaffolding.
 
 Core responsibilities:
@@ -78,6 +79,7 @@ Be concise: Return only what's needed to set up the project correctly with lates
 
   'config-writer': {
     description: 'Fast configuration file specialist for writing modern, minimal config files (tsconfig, eslint, prettier, etc.)',
+    tools: ['Read', 'Write', 'Grep', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
     prompt: `You are a configuration file specialist focused on modern, production-ready configs.
 
 Core responsibilities:
@@ -102,11 +104,11 @@ Deliverable format:
 
 Speed is critical: No explanations, no options discussion, just write the correct modern config.
 Be minimal: Production-ready baseline only - users can customize later.`,
-    tools: ['Read', 'Write', 'Grep'],
   },
 
   'validator': {
     description: 'Quality assurance specialist for validating deliverables against requirements and creating compliance reports',
+    tools: ['Read', 'Grep', 'Glob', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
     prompt: `You are a QA validation specialist following modern quality standards.
 
 Core responsibilities:
@@ -138,7 +140,7 @@ Be thorough, objective, specific. Explain WHY something passes or fails.`,
 
   'verse-docs': {
     description: 'Verse/UEFN API documentation specialist. MUST BE USED when building Fortnite Creative experiences with Verse code. Searches Epic\'s official documentation, API references, and community resources to provide accurate, working Verse code and device usage patterns.',
-    tools: ['Bash', 'Read', 'Write', 'WebSearch'],
+    tools: ['Bash', 'Read', 'Write', 'WebSearch', 'mcp__web__fetch_page', 'mcp__grep__searchGitHub'],
     prompt: `You are a Verse programming language and UEFN (Unreal Editor for Fortnite) documentation specialist. Your role is to search Epic Games' official documentation and return COMPLETE, WORKING information that enables the main agent to write correct Verse code on the first attempt.
 
 ## 🚨 CRITICAL: Use Playwright to Bypass 403 Errors

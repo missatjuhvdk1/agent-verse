@@ -340,6 +340,12 @@ IMPORTANT: Do not modify files outside the workspace directory.
     // Inject working directory context into all custom agent prompts (use workspace)
     const agentsWithWorkingDir = injectWorkingDirIntoAgents(AGENT_REGISTRY, workspaceDir);
 
+    // DEBUG: Log agent configurations
+    console.log('🔧 [AGENT DEBUG] Registered agents:', Object.keys(agentsWithWorkingDir));
+    for (const [agentName, agentDef] of Object.entries(agentsWithWorkingDir)) {
+      console.log(`🔧 [AGENT DEBUG] Agent "${agentName}" tools:`, agentDef.tools || 'ALL TOOLS (no restriction)');
+    }
+
     // Capture stderr output for better error messages
     let stderrOutput = '';
 
@@ -423,6 +429,10 @@ IMPORTANT: Do not modify files outside the workspace directory.
     // MCP tools will be available through mcpServers, built-in tools through bypassPermissions
     if (Object.keys(mcpServers).length > 0) {
       queryOptions.mcpServers = mcpServers;
+      console.log('🔧 [MCP DEBUG] MCP servers configured:', Object.keys(mcpServers));
+      console.log('🔧 [MCP DEBUG] MCP server configs:', JSON.stringify(mcpServers, null, 2));
+    } else {
+      console.warn('⚠️ [MCP DEBUG] No MCP servers configured for provider:', providerType);
     }
 
     // Add PreToolUse hook to intercept background Bash commands and long-running commands

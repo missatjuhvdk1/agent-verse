@@ -107,6 +107,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
  */
 export function getMcpServers(provider: ProviderType, _modelId?: string): Record<string, McpServerConfig> {
   const servers = MCP_SERVERS_BY_PROVIDER[provider] || {};
+  console.log(`🔧 [MCP DEBUG] getMcpServers called for provider "${provider}":`, Object.keys(servers));
   return servers;
 }
 
@@ -122,29 +123,28 @@ export function getAllowedMcpTools(provider: ProviderType, _modelId?: string): s
     'mcp__grep__searchGitHub',
   ];
 
+  let tools: string[] = [];
+
   if (provider === 'anthropic') {
-    return [
+    tools = [
       ...grepTools,
       'mcp__web__fetch_page',
     ];
-  }
-
-  if (provider === 'z-ai') {
-    return [
+  } else if (provider === 'z-ai') {
+    tools = [
       ...grepTools,
       'mcp__web__fetch_page',
       'mcp__web-search-prime__search',
       'mcp__zai-mcp-server__image_analysis',
       'mcp__zai-mcp-server__video_analysis',
     ];
-  }
-
-  if (provider === 'moonshot') {
-    return [
+  } else if (provider === 'moonshot') {
+    tools = [
       ...grepTools,
       'mcp__web__fetch_page',
     ];
   }
 
-  return [];
+  console.log(`🔧 [MCP DEBUG] getAllowedMcpTools for provider "${provider}":`, tools);
+  return tools;
 }
