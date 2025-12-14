@@ -48,7 +48,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
       url: 'https://mcp.grep.app',
     },
     // Playwright MCP - web fetching with JavaScript support (bypasses 403)
-    'playwright-fetch': {
+    'web': {
       type: 'stdio',
       command: 'bun',
       args: ['run', 'server/mcp/playwright-mcp-server.ts'],
@@ -61,7 +61,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
       url: 'https://mcp.grep.app',
     },
     // Playwright MCP - web fetching with JavaScript support (bypasses 403)
-    'playwright-fetch': {
+    'web': {
       type: 'stdio',
       command: 'bun',
       args: ['run', 'server/mcp/playwright-mcp-server.ts'],
@@ -91,7 +91,7 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
       url: 'https://mcp.grep.app',
     },
     // Playwright MCP - web fetching with JavaScript support (bypasses 403)
-    'playwright-fetch': {
+    'web': {
       type: 'stdio',
       command: 'bun',
       args: ['run', 'server/mcp/playwright-mcp-server.ts'],
@@ -125,14 +125,14 @@ export function getAllowedMcpTools(provider: ProviderType, _modelId?: string): s
   if (provider === 'anthropic') {
     return [
       ...grepTools,
-      'mcp__playwright-fetch__fetch_page',
+      'mcp__web__fetch_page',
     ];
   }
 
   if (provider === 'z-ai') {
     return [
       ...grepTools,
-      'mcp__playwright-fetch__fetch_page',
+      'mcp__web__fetch_page',
       'mcp__web-search-prime__search',
       'mcp__zai-mcp-server__image_analysis',
       'mcp__zai-mcp-server__video_analysis',
@@ -142,7 +142,7 @@ export function getAllowedMcpTools(provider: ProviderType, _modelId?: string): s
   if (provider === 'moonshot') {
     return [
       ...grepTools,
-      'mcp__playwright-fetch__fetch_page',
+      'mcp__web__fetch_page',
     ];
   }
 
