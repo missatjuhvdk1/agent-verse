@@ -76,6 +76,9 @@ export class VerseLSPClient {
     reject: (error: Error) => void;
   }>();
 
+  // Diagnostic storage: URI -> diagnostics
+  private diagnostics = new Map<string, VerseDiagnostic[]>();
+
   constructor(lspPath: string) {
     this.lspPath = lspPath;
   }
@@ -158,6 +161,7 @@ export class VerseLSPClient {
    * Handle parsed LSP message
    */
   private handleLSPMessage(message: LSPMessage): void {
+    // Handle responses (have id)
     if (message.id !== undefined) {
       const pending = this.pendingResponses.get(message.id);
       if (pending) {
@@ -168,8 +172,51 @@ export class VerseLSPClient {
           pending.resolve(message.result);
         }
       }
+      return;
     }
-    // Ignore notifications (no id)
+
+    // Handle notifications (no id)
+    if (message.method === 'textDocument/publishDiagnostics') {
+      this.handlePublishDiagnostics(message.params);
+    }
+  }
+
+  /**
+   * Handle publishDiagnostics notification from LSP
+   */
+  private handlePublishDiagnostics(params: unknown): void {
+    try {
+      const diagnosticsParams = params as {
+        uri: string;
+        diagnostics: Array<{
+          severity?: number;
+          message: string;
+          range: {
+            start: { line: number; character: number };
+            end: { line: number; character: number };
+          };
+          code?: string | number;
+        }>;
+      };
+
+      if (!diagnosticsParams || !diagnosticsParams.uri) {
+        return;
+      }
+
+      // Convert LSP diagnostics to our format
+      const verseDiagnostics: VerseDiagnostic[] = diagnosticsParams.diagnostics.map((diag) => ({
+        severity: diag.severity || DiagnosticSeverity.Error,
+        message: diag.message,
+        line: diag.range.start.line + 1, // LSP uses 0-based, we use 1-based
+        column: diag.range.start.character + 1,
+        code: diag.code?.toString(),
+      }));
+
+      // Store diagnostics for this URI
+      this.diagnostics.set(diagnosticsParams.uri, verseDiagnostics);
+    } catch (error) {
+      console.error('[Verse LSP] Failed to parse diagnostics:', error);
+    }
   }
 
   /**
@@ -258,23 +305,41 @@ export class VerseLSPClient {
   /**
    * Validate Verse code (SAFE - uses temporary file)
    *
+   * SAFETY GUARANTEES:
+   * - Only creates files in OS temp directory (never touches UEFN projects)
+   * - Verifies temp paths before deletion
+   * - Handles cleanup failures gracefully
+   *
    * @param code The Verse code to validate
    * @returns Validation result with diagnostics
    */
   async validateCode(code: string): Promise<ValidationResult> {
     let tempDir: string | null = null;
     let tempFile: string | null = null;
+    let fileUri: string | null = null;
 
     try {
-      // Create temp directory
-      tempDir = await mkdtemp(join(tmpdir(), 'verse-validation-'));
+      // Create temp directory (SAFE: only in OS temp dir)
+      const systemTempDir = tmpdir();
+      tempDir = await mkdtemp(join(systemTempDir, 'verse-validation-'));
+
+      // Verify we're in temp directory (safety check)
+      if (!tempDir.startsWith(systemTempDir)) {
+        throw new Error('Temp directory path verification failed - refusing to proceed');
+      }
+
       tempFile = join(tempDir, 'temp.verse');
 
       // Write code to temp file
       await writeFile(tempFile, code, 'utf-8');
 
+      // Normalize file URI for LSP
+      fileUri = `file:///${tempFile.replace(/\\/g, '/')}`;
+
+      // Clear any previous diagnostics for this URI
+      this.diagnostics.delete(fileUri);
+
       // Open document in LSP (notification, not request)
-      const fileUri = `file:///${tempFile.replace(/\\/g, '/')}`;
       this.sendNotification('textDocument/didOpen', {
         textDocument: {
           uri: fileUri,
@@ -284,27 +349,82 @@ export class VerseLSPClient {
         },
       });
 
-      // Wait a bit for diagnostics to be published
-      // (In real implementation, we'd listen for publishDiagnostics notifications)
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Wait for diagnostics with timeout
+      // LSP sends publishDiagnostics asynchronously
+      const diagnostics = await this.waitForDiagnostics(fileUri, 2000);
 
-      // For now, return success (we'd need to capture diagnostics from notifications)
-      // This is a simplified version - full implementation would track diagnostics
+      // Close document in LSP
+      this.sendNotification('textDocument/didClose', {
+        textDocument: { uri: fileUri },
+      });
+
+      // Determine success (no errors)
+      const hasErrors = diagnostics.some(d => d.severity === DiagnosticSeverity.Error);
+
       return {
-        success: true,
-        diagnostics: [],
+        success: !hasErrors,
+        diagnostics,
       };
 
+    } catch (error) {
+      console.error('[Verse LSP] Validation error:', error);
+      // Return error as diagnostic
+      return {
+        success: false,
+        diagnostics: [{
+          severity: DiagnosticSeverity.Error,
+          message: error instanceof Error ? error.message : 'Unknown validation error',
+          line: 1,
+          column: 1,
+        }],
+      };
     } finally {
-      // CLEANUP: Always delete temp files
-      if (tempDir) {
+      // CLEANUP: Always delete temp files (with safety checks)
+      if (tempDir && fileUri) {
         try {
-          await rm(tempDir, { recursive: true, force: true });
+          // Clear diagnostics for this URI
+          this.diagnostics.delete(fileUri);
+
+          // Verify path is in temp directory before deletion
+          const systemTempDir = tmpdir();
+          if (tempDir.startsWith(systemTempDir)) {
+            await rm(tempDir, { recursive: true, force: true });
+          } else {
+            console.error('[Verse LSP] SAFETY: Refusing to delete directory outside temp:', tempDir);
+          }
         } catch (error) {
-          console.error('[Verse LSP] Failed to cleanup temp dir:', error);
+          // Non-fatal: temp files will be cleaned by OS eventually
+          console.warn('[Verse LSP] Failed to cleanup temp dir:', error);
         }
       }
     }
+  }
+
+  /**
+   * Wait for diagnostics to arrive from LSP
+   *
+   * @param uri File URI to wait for
+   * @param timeoutMs Max time to wait (default 2000ms)
+   * @returns Diagnostics array (empty if none arrive)
+   */
+  private async waitForDiagnostics(uri: string, timeoutMs: number = 2000): Promise<VerseDiagnostic[]> {
+    const startTime = Date.now();
+    const pollInterval = 50; // Check every 50ms
+
+    while (Date.now() - startTime < timeoutMs) {
+      // Check if diagnostics have arrived
+      const diagnostics = this.diagnostics.get(uri);
+      if (diagnostics !== undefined) {
+        return diagnostics;
+      }
+
+      // Wait before next check
+      await new Promise(resolve => setTimeout(resolve, pollInterval));
+    }
+
+    // Timeout: no diagnostics received (valid code or LSP didn't respond)
+    // This is not an error - the code might be valid
+    return [];
   }
 
   /**
