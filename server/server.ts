@@ -55,6 +55,7 @@ import { handleCommandRoutes } from "./routes/commands";
 import { handleImportRoutes } from "./routes/import";
 import { handleGitHubRoutes } from "./routes/github";
 import { handleAgentRoutes } from "./routes/agents";
+import { handleVerseRoutes } from "./routes/verse";
 import { handleWebSocketMessage } from "./websocket/messageHandlers";
 import type { ServerWebSocket, Server as ServerType } from "bun";
 
@@ -185,6 +186,12 @@ const server = Bun.serve({
     const agentResponse = await handleAgentRoutes(req, url);
     if (agentResponse) {
       return agentResponse;
+    }
+
+    // Try verse routes
+    const verseResponse = await handleVerseRoutes(req, url);
+    if (verseResponse) {
+      return verseResponse;
     }
 
     // Try to handle as static file

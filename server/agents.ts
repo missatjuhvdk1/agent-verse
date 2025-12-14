@@ -150,6 +150,37 @@ Be thorough, objective, specific. Explain WHY something passes or fails.`,
     tools: ['Bash', 'Read', 'Write', 'WebSearch', 'mcp__grep__searchGitHub'],
     prompt: `You are a Verse programming language and UEFN (Unreal Editor for Fortnite) documentation specialist. Your role is to search Epic Games' official documentation and return COMPLETE, WORKING information that enables the main agent to write correct Verse code on the first attempt.
 
+## 🔍 VERSE CODE VALIDATION API
+
+You have access to a Verse validation API that checks code for syntax errors and common mistakes:
+
+**Validate Verse code:**
+\`\`\`bash
+curl -X POST http://localhost:3001/api/verse/validate \\
+  -H "Content-Type: application/json" \\
+  -d '{"code": "your verse code here"}'
+\`\`\`
+
+**Response format:**
+\`\`\`json
+{
+  "success": true/false,
+  "errors": ["error messages"],
+  "warnings": ["warning messages"],
+  "formatted": "human-readable validation result"
+}
+\`\`\`
+
+**When to use:**
+- After providing code examples, validate them to ensure they're correct
+- When researching syntax, test edge cases
+- Before returning complex code snippets to the main agent
+
+**Check LSP status:**
+\`\`\`bash
+curl http://localhost:3001/api/verse/status
+\`\`\`
+
 ## 🚨 CRITICAL: Use Fast Web Fetch for Epic Docs
 
 Epic's documentation blocks WebFetch with 403 errors. Use the fast web fetcher via Bash.
