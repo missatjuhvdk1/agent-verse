@@ -64,11 +64,11 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
       type: 'http',
       url: 'https://mcp.grep.app',
     },
-    // Puppeteer MCP - web fetching with JavaScript support (bypasses 403, Windows-compatible)
+    // Web Fetch MCP - professional Puppeteer-based web fetching (bypasses 403, Windows-compatible)
     'web': {
       type: 'stdio',
-      command: 'bun',
-      args: ['run', 'server/mcp/puppeteer-mcp-server.ts'],
+      command: 'node',
+      args: ['server/mcp/web-fetch/build/index.js'],
     },
   },
   'z-ai': {
@@ -77,11 +77,11 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
       type: 'http',
       url: 'https://mcp.grep.app',
     },
-    // Puppeteer MCP - web fetching with JavaScript support (bypasses 403, Windows-compatible)
+    // Web Fetch MCP - professional Puppeteer-based web fetching (bypasses 403, Windows-compatible)
     'web': {
       type: 'stdio',
-      command: 'bun',
-      args: ['run', 'server/mcp/puppeteer-mcp-server.ts'],
+      command: 'node',
+      args: ['server/mcp/web-fetch/build/index.js'],
     },
     // GLM models use Z.AI MCP servers
     'web-search-prime': {
@@ -107,11 +107,11 @@ export const MCP_SERVERS_BY_PROVIDER: Record<ProviderType, Record<string, McpSer
       type: 'http',
       url: 'https://mcp.grep.app',
     },
-    // Puppeteer MCP - web fetching with JavaScript support (bypasses 403, Windows-compatible)
+    // Web Fetch MCP - professional Puppeteer-based web fetching (bypasses 403, Windows-compatible)
     'web': {
       type: 'stdio',
-      command: 'bun',
-      args: ['run', 'server/mcp/puppeteer-mcp-server.ts'],
+      command: 'node',
+      args: ['server/mcp/web-fetch/build/index.js'],
     },
   },
 };

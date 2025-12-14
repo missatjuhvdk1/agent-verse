@@ -1,0 +1,30 @@
+{
+  "name": "@agent-smith/web-fetch-mcp",
+  "version": "1.0.0",
+  "description": "Web fetching MCP server with Puppeteer (Windows-compatible)",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "web-fetch-mcp": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "watch": "tsc --watch",
+    "dev": "tsc && node build/index.js",
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "0.6.0",
+    "puppeteer": "^23.10.4",
+    "turndown": "^7.2.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/turndown": "^5.0.5",
+    "typescript": "^5.7.2"
+  }
+}
