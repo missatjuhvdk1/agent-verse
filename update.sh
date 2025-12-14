@@ -1,0 +1,251 @@
+#!/bin/bash
+set -e
+
+# =============================================================================
+# Agent Smith Update Script - Smart, Minimal Updates Only
+# =============================================================================
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+# Configuration
+REPO="Meesvandenkieboom/agent-smith"
+BRANCH="main"
+GITHUB_REPO_URL="https://github.com/${REPO}.git"
+
+# Detect platform
+OS=$(uname -s)
+case $OS in
+  Darwin)
+    INSTALL_DIR="$HOME/Applications/agent-smith-app"
+    ;;
+  Linux)
+    INSTALL_DIR="$HOME/.local/share/agent-smith-app"
+    ;;
+  MINGW*|MSYS*|CYGWIN*)
+    if [[ -n "$LOCALAPPDATA" ]]; then
+      INSTALL_DIR="$LOCALAPPDATA/Programs/agent-smith-app"
+    else
+      INSTALL_DIR="$USERPROFILE/AppData/Local/Programs/agent-smith-app"
+    fi
+    ;;
+  *)
+    echo -e "${RED}❌ Unsupported OS: $OS${NC}"
+    exit 1
+    ;;
+esac
+
+log_info() {
+  echo -e "${BLUE}ℹ${NC} $1"
+}
+
+log_success() {
+  echo -e "${GREEN}✓${NC} $1"
+}
+
+log_error() {
+  echo -e "${RED}❌${NC} $1"
+}
+
+log_section() {
+  echo ""
+  echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+  echo -e "${CYAN}   $1${NC}"
+  echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+  echo ""
+}
+
+# =============================================================================
+# Check Installation
+# =============================================================================
+
+if [[ ! -d "$INSTALL_DIR" ]]; then
+  log_error "Agent Smith is not installed at $INSTALL_DIR"
+  echo ""
+  log_info "Run the installer first: curl -fsSL https://raw.githubusercontent.com/$REPO/main/install.sh | bash"
+  exit 1
+fi
+
+# =============================================================================
+# Main Update
+# =============================================================================
+
+echo ""
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${CYAN}   Agent Smith - Smart Update${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo ""
+
+# Clone to temp directory
+log_section "Downloading Latest Version"
+
+CLONE_DIR="/tmp/agent-smith-update-$$"
+log_info "Cloning from $BRANCH branch..."
+
+if git clone --quiet --depth 1 --branch "$BRANCH" "$GITHUB_REPO_URL" "$CLONE_DIR" 2>&1; then
+  log_success "Downloaded latest version"
+else
+  log_error "Failed to download update"
+  rm -rf "$CLONE_DIR" 2>/dev/null || true
+  exit 1
+fi
+
+# Install dependencies and build
+log_section "Installing Dependencies"
+
+cd "$CLONE_DIR"
+
+if ! command -v bun &> /dev/null; then
+  log_error "Bun not found in PATH"
+  rm -rf "$CLONE_DIR"
+  exit 1
+fi
+
+# Check if dependencies changed (just for informational message)
+DEPS_MSG="Installing dependencies..."
+if [[ -f "$INSTALL_DIR/package.json" ]]; then
+  if ! diff -q "$CLONE_DIR/package.json" "$INSTALL_DIR/package.json" > /dev/null 2>&1; then
+    DEPS_MSG="Dependencies changed - installing..."
+  fi
+fi
+
+log_info "$DEPS_MSG"
+
+INSTALL_OUTPUT=$(bun install 2>&1)
+INSTALL_EXIT_CODE=$?
+
+# Show summary
+echo "$INSTALL_OUTPUT" | tail -3
+
+if [ $INSTALL_EXIT_CODE -ne 0 ]; then
+  log_error "Failed to install dependencies"
+  rm -rf "$CLONE_DIR"
+  exit 1
+fi
+
+log_success "Dependencies installed"
+
+# Build application
+log_section "Building Application"
+
+# Build
+log_info "Building..."
+
+if BUILD_OUTPUT=$(bun run build 2>&1); then
+  echo "$BUILD_OUTPUT" | grep -E "(✓|✅|built)" || echo "$BUILD_OUTPUT"
+  log_success "Build complete"
+else
+  log_error "Build failed"
+  echo "$BUILD_OUTPUT"
+  rm -rf "$CLONE_DIR"
+  exit 1
+fi
+
+# Install update
+log_section "Installing Update"
+
+# Backup critical files
+ENV_BACKUP=""
+SERVER_ENV_BACKUP=""
+DATA_BACKUP=""
+TOKENS_BACKUP=""
+
+if [[ -f "$INSTALL_DIR/.env" ]]; then
+  ENV_BACKUP="/tmp/agent-smith-env-$$"
+  cp "$INSTALL_DIR/.env" "$ENV_BACKUP"
+  log_info "Backed up .env"
+fi
+
+if [[ -f "$INSTALL_DIR/server/.env" ]]; then
+  SERVER_ENV_BACKUP="/tmp/agent-smith-server-env-$$"
+  cp "$INSTALL_DIR/server/.env" "$SERVER_ENV_BACKUP"
+  log_info "Backed up server/.env (GitHub credentials)"
+fi
+
+if [[ -d "$INSTALL_DIR/data" ]]; then
+  DATA_BACKUP="/tmp/agent-smith-data-$$"
+  cp -r "$INSTALL_DIR/data" "$DATA_BACKUP"
+  log_info "Backed up data directory"
+fi
+
+if [[ -f "$INSTALL_DIR/.tokens" ]]; then
+  TOKENS_BACKUP="/tmp/agent-smith-tokens-$$"
+  cp "$INSTALL_DIR/.tokens" "$TOKENS_BACKUP"
+  log_info "Backed up OAuth tokens"
+fi
+
+# Remove old files (except user data)
+log_info "Removing old files..."
+find "$INSTALL_DIR" -mindepth 1 \
+  ! -name '.env' \
+  ! -name '.tokens' \
+  ! -name 'data' \
+  -delete 2>/dev/null || true
+
+# Copy new files
+log_info "Installing new files..."
+cp -r "$CLONE_DIR"/* "$INSTALL_DIR/"
+
+# Restore user data
+if [[ -n "$ENV_BACKUP" ]] && [[ -f "$ENV_BACKUP" ]]; then
+  cp "$ENV_BACKUP" "$INSTALL_DIR/.env"
+  rm "$ENV_BACKUP"
+  log_success "Restored .env"
+fi
+
+if [[ -n "$SERVER_ENV_BACKUP" ]] && [[ -f "$SERVER_ENV_BACKUP" ]]; then
+  mkdir -p "$INSTALL_DIR/server"
+  cp "$SERVER_ENV_BACKUP" "$INSTALL_DIR/server/.env"
+  rm "$SERVER_ENV_BACKUP"
+  log_success "Restored server/.env (GitHub credentials)"
+fi
+
+if [[ -n "$DATA_BACKUP" ]] && [[ -d "$DATA_BACKUP" ]]; then
+  rm -rf "$INSTALL_DIR/data"
+  mv "$DATA_BACKUP" "$INSTALL_DIR/data"
+  log_success "Restored data directory"
+fi
+
+if [[ -n "$TOKENS_BACKUP" ]] && [[ -f "$TOKENS_BACKUP" ]]; then
+  cp "$TOKENS_BACKUP" "$INSTALL_DIR/.tokens"
+  rm "$TOKENS_BACKUP"
+  log_success "Restored OAuth tokens"
+fi
+
+# Cleanup
+rm -rf "$CLONE_DIR"
+
+# Success
+log_section "Update Complete! 🎉"
+
+echo -e "${GREEN}Agent Smith has been updated successfully!${NC}"
+echo ""
+echo -e "${BLUE}📍 Installation:${NC} $INSTALL_DIR"
+echo ""
+
+# Check configuration status
+if [[ -f "$INSTALL_DIR/.env" ]] && grep -q "^ANTHROPIC_API_KEY=sk-ant-\|^ZAI_API_KEY=\|^MOONSHOT_API_KEY=" "$INSTALL_DIR/.env" 2>/dev/null; then
+  echo -e "${GREEN}✓${NC} API keys configured"
+elif [[ -f "$INSTALL_DIR/.tokens" ]]; then
+  echo -e "${GREEN}✓${NC} OAuth authentication active"
+else
+  echo -e "${YELLOW}⚠${NC} No authentication configured"
+  echo -e "  Run: ${GREEN}agent-smith --login${NC} or configure API keys in .env"
+fi
+
+echo ""
+echo -e "${BLUE}🚀 Start Agent Smith:${NC}"
+
+# Check if global command exists
+if command -v agent-smith &> /dev/null; then
+  echo -e "  → ${GREEN}agent-smith${NC}"
+else
+  echo -e "  → ${GREEN}cd $INSTALL_DIR && bun run server/server.ts${NC}"
+fi
+
+echo ""

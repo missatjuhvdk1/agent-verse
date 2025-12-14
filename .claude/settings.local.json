@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command:*)",
+      "Bash(bunx tsc:*)",
+      "Bash(bunx eslint:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

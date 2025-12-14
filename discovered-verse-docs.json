@@ -1,0 +1,1159 @@
+{
+  "discoveredAt": "2025-12-14T13:35:34.049Z",
+  "totalPages": 143,
+  "pages": [
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/verse",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/native",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/scenegraph",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/presentation",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/simulation",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/assets",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/colors",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/spatialmath",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/random",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/concurrency",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/itemization",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/webapi",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/scenegraph",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/temporary",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/json",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/controlinput",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/basicshapes",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/assets",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/ui",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/input",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/itemization",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/ai",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/devices",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/devices/creativeanimation/interpolationtypes",
+      "type": "device"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/marketplace",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/animation",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/characters",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/fortplayerutilities",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/game",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/playspaces",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/teams",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/vehicles",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api#versemodulelist",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/es-es/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/pt-br/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/es-mx/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/de-de/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/ru-ru/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/tr-tr/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/ko-kr/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/fr-fr/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/ja-jp/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/it-it/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/pl-pl/fortnite/verse-language-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-version-updates-and-deprecations-in-verse",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#syntax",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#static-checking",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#functional-programming",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#object-oriented-programming",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#imperative-programming",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#deterministic",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#immutable",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#statement",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#expression",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#result",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#if-expression",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#failure-context",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#commit",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#rollback",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#execute",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#concurrent",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#thread",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-reference#what-is-verse",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-reference#explore-the-language",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/tr-tr/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/de-de/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/it-it/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/pt-br/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/es-es/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/ko-kr/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/fr-fr/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/es-mx/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/pl-pl/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/ja-jp/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/ru-ru/fortnite/verse-language-quick-reference",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-get-started-in-unreal-editor-for-fortnite",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-starter-template-in-unreal-editor-for-fortnite",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-code-style-guide-in-unreal-editor-for-fortnite",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#for",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#array",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#struct",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#class",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#block",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#if",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#operators",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#specifiers",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#structured-concurrency",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#lifespan",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#async-context",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#subexpression",
+      "type": "api"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#expressions",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#code-comments",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#constants-and-variables",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#types",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#common-types",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#container-types",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#option",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#range",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#tuple",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#map",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#composite-types",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#enum",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#subclass",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#constructor",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#interface",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#working-with-types",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#grouping",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#code-blocks",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#scope",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#functions",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-definitions",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-results",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-parameters",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-calls",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-arguments",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#extension-methods",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#failure",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#failable-expressions",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#failure-contexts",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#speculative-execution",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#effect-specifiers",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#access-specifiers",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#class-specifiers",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#implementation-specifiers",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#localization-specifier",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#attributes",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#control-flow",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#case",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#loop",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#stopping-loops",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#defer",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#time-flow-and-concurrency",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#structured-concurrency",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#unstructured-concurrency",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#task",
+      "type": "language"
+    },
+    {
+      "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#modules-and-paths",
+      "type": "language"
+    }
+  ],
+  "byType": {
+    "device": [
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/devices/creativeanimation/interpolationtypes",
+        "type": "device"
+      }
+    ],
+    "language": [
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/es-es/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/pt-br/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/es-mx/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/de-de/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/ru-ru/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/tr-tr/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/ko-kr/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/fr-fr/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/ja-jp/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/it-it/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/pl-pl/fortnite/verse-language-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-version-updates-and-deprecations-in-verse",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-reference#what-is-verse",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-reference#explore-the-language",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/tr-tr/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/de-de/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/it-it/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/pt-br/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/es-es/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/ko-kr/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/fr-fr/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/es-mx/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/pl-pl/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/ja-jp/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/ru-ru/fortnite/verse-language-quick-reference",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-get-started-in-unreal-editor-for-fortnite",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#for",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#array",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#struct",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#class",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#block",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#if",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#operators",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#specifiers",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#expressions",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#code-comments",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#constants-and-variables",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#types",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#common-types",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#container-types",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#option",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#range",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#tuple",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#map",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#composite-types",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#enum",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#subclass",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#constructor",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#interface",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#working-with-types",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#grouping",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#code-blocks",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#scope",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#functions",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-definitions",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-results",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-parameters",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-calls",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#function-arguments",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#extension-methods",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#failure",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#failable-expressions",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#failure-contexts",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#speculative-execution",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#effect-specifiers",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#access-specifiers",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#class-specifiers",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#implementation-specifiers",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#localization-specifier",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#attributes",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#control-flow",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#case",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#loop",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#stopping-loops",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#defer",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#time-flow-and-concurrency",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#structured-concurrency",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#unstructured-concurrency",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#task",
+        "type": "language"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-language-quick-reference#modules-and-paths",
+        "type": "language"
+      }
+    ],
+    "tutorial": [],
+    "api": [
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/verse",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/native",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/scenegraph",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/presentation",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/simulation",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/assets",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/colors",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/spatialmath",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/random",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/versedotorg/concurrency",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/itemization",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/webapi",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/scenegraph",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/temporary",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/json",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/controlinput",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/basicshapes",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/unrealenginedotcom/assets",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/ui",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/input",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/itemization",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/ai",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/devices",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/marketplace",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/animation",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/characters",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/fortplayerutilities",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/game",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/playspaces",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/teams",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api/fortnitedotcom/vehicles",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-api#versemodulelist",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#syntax",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#static-checking",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#functional-programming",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#object-oriented-programming",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#imperative-programming",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#deterministic",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#immutable",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#statement",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#expression",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#result",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#if-expression",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#failure-context",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#commit",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#rollback",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#execute",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#concurrent",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#thread",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-starter-template-in-unreal-editor-for-fortnite",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-code-style-guide-in-unreal-editor-for-fortnite",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#structured-concurrency",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#lifespan",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#async-context",
+        "type": "api"
+      },
+      {
+        "url": "https://dev.epicgames.com/documentation/en-us/fortnite/verse-glossary#subexpression",
+        "type": "api"
+      }
+    ]
+  }
+}
